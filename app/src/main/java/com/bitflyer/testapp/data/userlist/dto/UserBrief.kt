@@ -1,3 +1,12 @@
 package com.bitflyer.testapp.data.userlist.dto
 
-data class UserBrief(val data: String) //TODO
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class UserBrief(
+    val id: Int,
+    val login: String,
+    @SerialName("avatar_url")
+    val avatarUrl: String
+)
