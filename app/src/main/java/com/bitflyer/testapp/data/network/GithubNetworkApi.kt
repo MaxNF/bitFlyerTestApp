@@ -1,6 +1,6 @@
 package com.bitflyer.testapp.data.network
 
-import com.bitflyer.testapp.data.dto.UserBrief
+import com.bitflyer.testapp.data.userlist.dto.UserBrief
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.http.GET

@@ -1,3 +1,3 @@
-package com.bitflyer.testapp.data.dto
+package com.bitflyer.testapp.data.userlist.dto
 
 data class UserBrief(val data: String) //TODO

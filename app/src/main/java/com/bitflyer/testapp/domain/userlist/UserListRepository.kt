@@ -1,7 +1,7 @@
 package com.bitflyer.testapp.domain.userlist
 
-import com.bitflyer.testapp.data.dto.UserBrief
+import com.bitflyer.testapp.data.userlist.dto.UserBrief
 
 interface UserListRepository {
-    suspend fun getUsers(): UserBrief
+    suspend fun getUsers(fromId: Int, count: Int): List<UserBrief>
 }
