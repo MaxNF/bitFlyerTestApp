@@ -26,9 +26,9 @@ class UserListPagingSourceTest : BaseTest() {
     @MockK
     private lateinit var networkApi: GithubNetworkApi
 
-    lateinit var pagingSource: UserListPagingSource
+    private lateinit var pagingSource: UserListPagingSource
 
-    lateinit var pagingConfig: PagingConfig
+    private lateinit var pagingConfig: PagingConfig
 
     override fun setUp() {
         super.setUp()

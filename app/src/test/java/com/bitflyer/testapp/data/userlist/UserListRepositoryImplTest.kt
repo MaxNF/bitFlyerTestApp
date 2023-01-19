@@ -23,7 +23,7 @@ class UserListRepositoryImplTest : BaseTest() {
     @MockK
     private lateinit var networkApi: GithubNetworkApi
 
-    lateinit var repo: UserListRepository
+    private lateinit var repo: UserListRepository
 
     override fun setUp() {
         super.setUp()
