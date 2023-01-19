@@ -1,44 +1,54 @@
 package com.bitflyer.testapp.domain.userlist
 
 import com.bitflyer.testapp.BaseTest
-import com.bitflyer.testapp.userBriefMock
+import com.bitflyer.testapp.data.CallResult
+import com.bitflyer.testapp.userBriefListMock
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class UserListInteractorTest: BaseTest() {
+class UserListInteractorTest : BaseTest() {
 
     @MockK
     private lateinit var repo: UserListRepository
 
     private lateinit var interactor: UserListInteractor
 
-    @Before
     override fun setUp() {
         super.setUp()
         interactor = UserListInteractor(repo)
     }
 
     @Test
-    fun `GetUser is successful`() {
-        val mock = userBriefMock
-        coEvery { repo.getUsers() }.returns(userBriefMock)
+    fun `Repo returns Success, interactor also returns Success`() {
+        val mock = CallResult.Success(userBriefListMock)
+        coEvery { repo.getUsers(any(), any()) }.returns(mock)
         runTest(UnconfinedTestDispatcher()) {
-            assertThat(interactor.getUsers()).isEqualTo(mock)
+            assertThat(interactor.getUsers(1, 1)).isEqualTo(mock)
         }
     }
 
-    @Test(expected = Exception::class)
-    fun `GetUser throws an exception`() {
-        coEvery { repo.getUsers() }.throws(Exception())
+
+    @Test
+    fun `Repo returns NetworkError, interactor also returns NetworkError`() {
+        val mock = CallResult.NetworkError
+        coEvery { repo.getUsers(any(), any()) }.returns(mock)
         runTest(UnconfinedTestDispatcher()) {
-            interactor.getUsers()
+            assertThat(interactor.getUsers(1, 1)).isEqualTo(mock)
+        }
+    }
+
+    @Test
+    fun `Repo returns HttpException, interactor also returns NetworkError`() {
+        val mock = CallResult.HttpError(400, "")
+        coEvery { repo.getUsers(any(), any()) }.returns(mock)
+        runTest(UnconfinedTestDispatcher()) {
+            assertThat(interactor.getUsers(1, 1)).isEqualTo(mock)
         }
     }
 }

@@ -1,26 +1,30 @@
 package com.bitflyer.testapp.data
 
-import com.bitflyer.testapp.exception.EmptyResultException
-import com.bitflyer.testapp.exception.NetworkException
-import kotlinx.coroutines.delay
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import java.io.IOException
+
+sealed class CallResult<out T> {
+    data class Success<out T>(val value: T) : CallResult<T>()
+    data class HttpError(val code: Int? = null, val message: String?) : CallResult<Nothing>()
+    object NetworkError : CallResult<Nothing>()
+    object UnknownError : CallResult<Nothing>()
+}
 
 open class BaseRepo {
-    companion object {
-        const val MAX_TRIES = 3
-    }
-
-    protected suspend fun <T> performWithRetry(action: suspend () -> Response<T>): T {
-        var counter = 0
-        var response: Response<T>? = null
-        while (counter < MAX_TRIES) {
-            response = action()
-            if (response.code() == 200) {
-                return response.body() ?: throw EmptyResultException()
+    suspend fun <T> safeApiCall(dispatcher: CoroutineDispatcher = Dispatchers.IO, apiCall: suspend () -> T): CallResult<T> {
+        return withContext(dispatcher) {
+            try {
+                CallResult.Success(apiCall.invoke())
+            } catch (throwable: Throwable) {
+                when (throwable) {
+                    is IOException -> CallResult.NetworkError
+                    is HttpException -> CallResult.HttpError(throwable.code(), throwable.message())
+                    else -> CallResult.UnknownError
+                }
             }
-            else counter++
-            delay(1000)
         }
-        throw NetworkException(response?.code() ?: 0, response?.message() ?: "")
     }
 }
