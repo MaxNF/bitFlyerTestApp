@@ -9,7 +9,7 @@ import java.io.IOException
 sealed class CallResult<out T> {
     data class Success<out T>(val value: T) : CallResult<T>()
     data class HttpError(val code: Int? = null, val message: String?) : CallResult<Nothing>()
-    object NetworkError : CallResult<Nothing>()
+    object IOError : CallResult<Nothing>()
     object UnknownError : CallResult<Nothing>()
 }
 
@@ -20,7 +20,7 @@ open class BaseRepo {
                 CallResult.Success(apiCall.invoke())
             } catch (throwable: Throwable) {
                 when (throwable) {
-                    is IOException -> CallResult.NetworkError
+                    is IOException -> CallResult.IOError
                     is HttpException -> CallResult.HttpError(throwable.code(), throwable.message())
                     else -> CallResult.UnknownError
                 }

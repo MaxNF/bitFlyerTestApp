@@ -1,6 +1,12 @@
 package com.bitflyer.testapp.di
 
+import android.content.Context
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.room.Room
+import com.bitflyer.testapp.data.local.AppDatabase
 import com.bitflyer.testapp.data.network.GithubNetworkApi
+import com.bitflyer.testapp.data.userlist.UserListPagingSource
 import com.bitflyer.testapp.data.userlist.UserListRepositoryImpl
 import com.bitflyer.testapp.data.userlist.dto.UserBrief
 import com.bitflyer.testapp.domain.userlist.UserListRepository
@@ -37,6 +43,16 @@ abstract class RepositoryModule {
 }
 
 @Module
+@InstallIn(ViewModelComponent::class)
+class PagerModule {
+
+    @Provides
+    fun providePager(githubNetworkApi: GithubNetworkApi) = Pager(PagingConfig(50, 20)) {
+        UserListPagingSource(githubNetworkApi)
+    }
+}
+
+@Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
 
@@ -52,4 +68,18 @@ class NetworkModule {
 
     @Provides
     fun provideGithubApi(retrofit: Retrofit) = GithubNetworkApi.create(retrofit)
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+class DatabaseModule {
+
+    @Provides
+    fun provideAppDatabase(applicationContext: Context) = Room.databaseBuilder(
+        applicationContext,
+        AppDatabase::class.java, "app_database"
+    ).build()
+
+    @Provides
+    fun provideUserDao(db: AppDatabase) = db.userListDao()
 }
