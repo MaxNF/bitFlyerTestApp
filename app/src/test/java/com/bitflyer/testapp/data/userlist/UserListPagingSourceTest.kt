@@ -5,9 +5,13 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.bitflyer.testapp.BaseTest
 import com.bitflyer.testapp.data.network.GithubNetworkApi
+import com.bitflyer.testapp.domain.userlist.mapper.UserBriefEntityMapper
+import com.bitflyer.testapp.userBriefEntityListMock
+import com.bitflyer.testapp.userBriefEntityMock
 import com.bitflyer.testapp.userBriefListMock
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -26,13 +30,17 @@ class UserListPagingSourceTest : BaseTest() {
     @MockK
     private lateinit var networkApi: GithubNetworkApi
 
+    @MockK
+    private lateinit var mapper: UserBriefEntityMapper
+
     private lateinit var pagingSource: UserListPagingSource
 
     private lateinit var pagingConfig: PagingConfig
 
     override fun setUp() {
         super.setUp()
-        pagingSource = UserListPagingSource(networkApi)
+        every { mapper.map(any()) }.returns(userBriefEntityMock)
+        pagingSource = UserListPagingSource(networkApi, mapper)
         pagingConfig = PagingConfig(pageSize)
     }
 
@@ -49,7 +57,7 @@ class UserListPagingSourceTest : BaseTest() {
         val params = PagingSource.LoadParams.Append(1, pageSize, false)
             val result = pagingSource.load(params)
             assertThat(result).isInstanceOf(PagingSource.LoadResult.Page::class.java)
-            assertThat((result as PagingSource.LoadResult.Page).data).isEqualTo(userBriefListMock)
+            assertThat((result as PagingSource.LoadResult.Page).data).isEqualTo(userBriefEntityListMock)
         }
     }
 

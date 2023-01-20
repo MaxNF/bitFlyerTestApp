@@ -5,7 +5,7 @@ import com.bitflyer.testapp.data.CallResult
 import com.bitflyer.testapp.data.local.UserListDao
 import com.bitflyer.testapp.data.network.GithubNetworkApi
 import com.bitflyer.testapp.data.userlist.dto.UserBrief
-import com.bitflyer.testapp.domain.entity.UserBriefEntity
+import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
 import com.bitflyer.testapp.domain.userlist.UserListRepository
 import javax.inject.Inject
 

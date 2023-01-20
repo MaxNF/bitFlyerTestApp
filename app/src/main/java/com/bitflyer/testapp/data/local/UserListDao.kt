@@ -3,7 +3,7 @@ package com.bitflyer.testapp.data.local
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.bitflyer.testapp.domain.entity.UserBriefEntity
+import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
 
 @Dao
 interface UserListDao {

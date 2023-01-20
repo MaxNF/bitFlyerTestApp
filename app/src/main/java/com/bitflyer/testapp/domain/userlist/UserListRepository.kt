@@ -2,7 +2,7 @@ package com.bitflyer.testapp.domain.userlist
 
 import com.bitflyer.testapp.data.CallResult
 import com.bitflyer.testapp.data.userlist.dto.UserBrief
-import com.bitflyer.testapp.domain.entity.UserBriefEntity
+import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
 
 interface UserListRepository {
     suspend fun getUsers(fromId: Int, count: Int): CallResult<List<UserBrief>>
