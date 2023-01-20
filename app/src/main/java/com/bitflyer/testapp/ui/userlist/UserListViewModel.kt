@@ -1,5 +1,6 @@
 package com.bitflyer.testapp.ui.userlist
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,10 +10,10 @@ import androidx.paging.cachedIn
 import com.bitflyer.testapp.data.local.UserListDao
 import com.bitflyer.testapp.data.network.GithubNetworkApi
 import com.bitflyer.testapp.data.userlist.UserListPagingSource
+import com.bitflyer.testapp.data.userlist.dto.UserBrief
 import com.bitflyer.testapp.domain.userlist.UserListRepository
 import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
-import com.bitflyer.testapp.domain.userlist.mapper.UserBriefToUserBriefEntityMapper
-import com.bitflyer.testapp.ui.userlist.model.UserBriefModel
+import com.bitflyer.testapp.ui.BaseMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,24 +21,26 @@ import javax.inject.Inject
 @HiltViewModel
 class UserListViewModel @Inject constructor(
     private val userListRepository: UserListRepository,
-    private val githubNetworkApi: GithubNetworkApi,
-    private val dao: UserListDao,
-    private val entityMapper: UserBriefToUserBriefEntityMapper,
+    githubNetworkApi: GithubNetworkApi,
+    dao: UserListDao,
+    entityMapper: BaseMapper<UserBrief, UserBriefEntity>,
     private val state: SavedStateHandle
 ) : ViewModel() {
     companion object {
+        private const val TAG = "UserListViewModel"
         private const val restoreStateKey: String = "restore"
     }
 
-    val flow = Pager(PagingConfig(50, 20)) {
+    init {
+        Log.d(TAG, ": ${state.get<Boolean>(restoreStateKey)}")
+    }
+    val flow = Pager(PagingConfig(pageSize = 50, prefetchDistance = 20, initialLoadSize = 50)) {
         UserListPagingSource(githubNetworkApi, dao, entityMapper, state[restoreStateKey] ?: false)
     }.flow.cachedIn(viewModelScope)
 
-    fun onUserClick(user: UserBriefModel) {
-        //todo open details
-    }
     fun saveData(list: List<UserBriefEntity>) {
         if (list.isNotEmpty()) {
+            Log.d(TAG, "saveData: ${list.size}")
             state[restoreStateKey] = true
             viewModelScope.launch {
                 userListRepository.saveUsers(list)

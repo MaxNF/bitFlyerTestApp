@@ -1,16 +1,13 @@
 package com.bitflyer.testapp.di
 
 import android.content.Context
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.room.Room
 import com.bitflyer.testapp.data.local.AppDatabase
 import com.bitflyer.testapp.data.network.GithubNetworkApi
-import com.bitflyer.testapp.data.userlist.UserListPagingSource
 import com.bitflyer.testapp.data.userlist.UserListRepositoryImpl
 import com.bitflyer.testapp.data.userlist.dto.UserBrief
-import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
 import com.bitflyer.testapp.domain.userlist.UserListRepository
+import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
 import com.bitflyer.testapp.domain.userlist.mapper.UserBriefToUserBriefEntityMapper
 import com.bitflyer.testapp.ui.BaseMapper
 import com.bitflyer.testapp.ui.userlist.mapper.UserBriefEntityToUserBriefModelMapper
@@ -20,7 +17,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -30,7 +29,7 @@ import javax.inject.Singleton
 
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(ActivityRetainedComponent::class)
 abstract class MapperModule {
     @Binds
     abstract fun provideUserListModelMapper(mapper: UserBriefEntityToUserBriefModelMapper): BaseMapper<UserBriefEntity, UserBriefModel>
@@ -54,9 +53,13 @@ class NetworkModule {
     @Singleton
     @Provides
     fun provideRetrofitClient(): Retrofit {
+        val converterFactory = Json {
+            ignoreUnknownKeys = true
+            encodeDefaults = true
+        }.asConverterFactory("application/json".toMediaType())
         return Retrofit.Builder()
             .baseUrl("https://api.github.com")
-            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+            .addConverterFactory(converterFactory)
             .build()
     }
 
@@ -69,7 +72,7 @@ class NetworkModule {
 class DatabaseModule {
 
     @Provides
-    fun provideAppDatabase(applicationContext: Context) = Room.databaseBuilder(
+    fun provideAppDatabase(@ApplicationContext applicationContext: Context) = Room.databaseBuilder(
         applicationContext,
         AppDatabase::class.java, "app_database"
     ).build()
