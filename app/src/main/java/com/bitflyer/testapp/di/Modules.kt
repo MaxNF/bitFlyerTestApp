@@ -11,10 +11,10 @@ import com.bitflyer.testapp.data.userlist.UserListRepositoryImpl
 import com.bitflyer.testapp.data.userlist.dto.UserBrief
 import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
 import com.bitflyer.testapp.domain.userlist.UserListRepository
-import com.bitflyer.testapp.domain.userlist.mapper.UserBriefEntityMapper
+import com.bitflyer.testapp.domain.userlist.mapper.UserBriefToUserBriefEntityMapper
 import com.bitflyer.testapp.ui.BaseMapper
-import com.bitflyer.testapp.ui.userlist.mapper.UserListModelMapper
-import com.bitflyer.testapp.ui.userlist.model.UserListModel
+import com.bitflyer.testapp.ui.userlist.mapper.UserBriefEntityToUserBriefModelMapper
+import com.bitflyer.testapp.ui.userlist.model.UserBriefModel
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Binds
 import dagger.Module
@@ -33,10 +33,10 @@ import javax.inject.Singleton
 @InstallIn(ViewModelComponent::class)
 abstract class MapperModule {
     @Binds
-    abstract fun provideUserListModelMapper(mapper: UserListModelMapper): BaseMapper<UserBriefEntity, UserListModel>
+    abstract fun provideUserListModelMapper(mapper: UserBriefEntityToUserBriefModelMapper): BaseMapper<UserBriefEntity, UserBriefModel>
 
     @Binds
-    abstract fun provideUserListEntityMapper(mapper: UserBriefEntityMapper): BaseMapper<UserBrief, UserBriefEntity>
+    abstract fun provideUserListEntityMapper(mapper: UserBriefToUserBriefEntityMapper): BaseMapper<UserBrief, UserBriefEntity>
 }
 
 @Module
@@ -44,19 +44,6 @@ abstract class MapperModule {
 abstract class RepositoryModule {
     @Binds
     abstract fun provideUserListRepo(userListRepository: UserListRepositoryImpl): UserListRepository
-}
-
-@Module
-@InstallIn(ViewModelComponent::class)
-class PagerModule {
-
-    @Provides
-    fun providePager(
-        githubNetworkApi: GithubNetworkApi,
-        entityMapper: UserBriefEntityMapper
-    ) = Pager(PagingConfig(50, 20)) {
-        UserListPagingSource(githubNetworkApi, entityMapper)
-    }
 }
 
 @Module

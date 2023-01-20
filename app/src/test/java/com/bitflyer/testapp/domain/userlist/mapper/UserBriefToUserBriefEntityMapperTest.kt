@@ -5,14 +5,14 @@ import com.bitflyer.testapp.userBriefMock
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-class UserBriefEntityMapperTest : BaseTest() {
+class UserBriefToUserBriefEntityMapperTest : BaseTest() {
 
-    private lateinit var mapper: UserBriefEntityMapper
+    private lateinit var mapper: UserBriefToUserBriefEntityMapper
     private val dto = userBriefMock
 
     override fun setUp() {
         super.setUp()
-        mapper = UserBriefEntityMapper()
+        mapper = UserBriefToUserBriefEntityMapper()
     }
 
     @Test
