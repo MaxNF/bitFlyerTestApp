@@ -4,5 +4,5 @@ import com.bitflyer.testapp.data.CallResult
 import com.bitflyer.testapp.data.userdetails.dto.UserDetails
 
 interface UserDetailsRepository {
-    fun getUserDetails(login: String): CallResult<UserDetails>
+    suspend fun getUserDetails(login: String): CallResult<UserDetails>
 }
