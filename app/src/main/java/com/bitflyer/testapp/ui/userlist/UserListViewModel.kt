@@ -27,16 +27,16 @@ class UserListViewModel @Inject constructor(
 ) : ViewModel() {
     companion object {
         private const val TAG = "UserListViewModel"
-        private const val restoreStateKey: String = "restore"
+        private const val RESTORE_STATE_KEY: String = "restore"
     }
 
     val flow = Pager(PagingConfig(pageSize = 50, prefetchDistance = 20, initialLoadSize = 50, enablePlaceholders = true)) {
-        UserListPagingSource(githubNetworkApi, dao, entityMapper, state[restoreStateKey] ?: false)
+        UserListPagingSource(githubNetworkApi, dao, entityMapper, state[RESTORE_STATE_KEY] ?: false)
     }.flow.cachedIn(viewModelScope)
 
     fun saveData(list: List<UserBriefEntity>) {
         if (list.isNotEmpty()) {
-            state[restoreStateKey] = true
+            state[RESTORE_STATE_KEY] = true
             viewModelScope.launch {
                 userListRepository.saveUsers(list)
             }
