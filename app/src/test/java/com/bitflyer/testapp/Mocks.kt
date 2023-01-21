@@ -1,5 +1,6 @@
 package com.bitflyer.testapp
 
+import com.bitflyer.testapp.data.userdetails.dto.UserDetails
 import com.bitflyer.testapp.data.userlist.dto.UserBrief
 import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
 
@@ -14,3 +15,19 @@ val userBriefEntityMock
 
 val userBriefEntityListMock
     get() = listOf(userBriefEntityMock)
+
+val userDetailsMock
+    get() = UserDetails(
+        "login",
+        "avatarUrl",
+        "name",
+        "company",
+        "blogUrl",
+        "location",
+        "email",
+        "twitter",
+        "bio",
+        1,
+        2,
+        3
+    )
