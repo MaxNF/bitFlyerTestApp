@@ -14,6 +14,7 @@ import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
 import com.bitflyer.testapp.domain.userlist.mapper.UserBriefToUserBriefEntityMapper
 import com.bitflyer.testapp.ui.BaseMapper
 import com.bitflyer.testapp.ui.userdetails.mapper.UserDetailsToUserDetailsModelMapper
+import com.bitflyer.testapp.ui.userdetails.model.UserDetailsModel
 import com.bitflyer.testapp.ui.userlist.mapper.UserBriefEntityToUserBriefModelMapper
 import com.bitflyer.testapp.ui.userlist.model.UserBriefModel
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -44,7 +45,7 @@ abstract class MapperModule {
     @Binds
     abstract fun provideUserDetailsModelMapper(
         mapper: UserDetailsToUserDetailsModelMapper
-    ): BaseMapper<UserDetails, UserDetailsToUserDetailsModelMapper>
+    ): BaseMapper<UserDetails, UserDetailsModel>
 }
 
 @Module
