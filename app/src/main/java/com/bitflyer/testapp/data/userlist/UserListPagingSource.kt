@@ -58,13 +58,13 @@ class UserListPagingSource(
         //todo uncomment when complete
 //        val users = api.getUsers(fromId, loadSize).map(entityMapper::map)
         //todo remove when complete
-        delay(10000)
+        delay(1500)
         val users = mutableListOf<UserBriefEntity>().apply {
             repeat(loadSize) {
                 this.add(UserBriefEntity(fromId + it, "login${fromId + it}", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRA9nc9vtOqszvTTELelPfWllSPrztOkvD7rg&usqp=CAU"))
             }
         }
-//        if (Random.nextInt(0, 3) == 0) return LoadResult.Error(Exception())
+        if (Random.nextInt(0, 2) == 0) return LoadResult.Error(Exception())
 
         Log.d(TAG, "loadFromNet: $fromId, $loadSize, ${users.size}")
         return LoadResult.Page(users, null, fromId + loadSize)

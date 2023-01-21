@@ -13,7 +13,7 @@
 
     <include
         android:id="@+id/error"
-        android:layout_height="wrap_content"
+        android:layout_height="112dp"
         android:layout_width="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         layout="@layout/layout_user_item_error" />

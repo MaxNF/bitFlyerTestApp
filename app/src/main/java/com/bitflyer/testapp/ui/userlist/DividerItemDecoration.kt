@@ -16,7 +16,7 @@ class DividerItemDecoration(context: Context) : ItemDecoration() {
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
 
         val childCount = parent.childCount
-        for (i in 0 until childCount) {
+        for (i in 0 until childCount - 1) {
             val child: View = parent.getChildAt(i)
             val left = child.paddingLeft
             val right = child.width - child.paddingRight
