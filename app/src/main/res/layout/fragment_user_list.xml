@@ -18,7 +18,7 @@
 
     <include
         android:id="@+id/list_error"
-        layout="@layout/layout_user_list_error" />
+        layout="@layout/layout_loading_error" />
 
     <include
         android:id="@+id/list_loading"

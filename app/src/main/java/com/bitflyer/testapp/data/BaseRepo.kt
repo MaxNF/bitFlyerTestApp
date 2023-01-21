@@ -1,5 +1,6 @@
 package com.bitflyer.testapp.data
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -14,11 +15,16 @@ sealed class CallResult<out T> {
 }
 
 open class BaseRepo {
+    companion object {
+        private const val TAG = "BaseRepo"
+    }
+
     suspend fun <T> safeApiCall(dispatcher: CoroutineDispatcher = Dispatchers.IO, apiCall: suspend () -> T): CallResult<T> {
         return withContext(dispatcher) {
             try {
                 CallResult.Success(apiCall.invoke())
             } catch (throwable: Throwable) {
+                Log.e(TAG, "Error while loading data", throwable)
                 when (throwable) {
                     is IOException -> CallResult.IOError
                     is HttpException -> CallResult.HttpError(throwable.code(), throwable.message())

@@ -59,9 +59,9 @@ class UserListFragment : Fragment(), OnUserClickListener, OnRetryClickListener {
         super.onViewCreated(view, savedInstanceState)
         binding?.recyclerView?.let {
             binding?.recyclerView?.setOnApplyWindowInsetsListener { view, windowInsets ->
-                val bottomInset = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R){
+                val bottomInset = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
                     windowInsets.getInsets(WindowInsets.Type.systemBars()).bottom
-                } else{
+                } else {
                     windowInsets.stableInsetBottom
                 }
                 view.updatePadding(bottom = bottomInset)
@@ -104,7 +104,9 @@ class UserListFragment : Fragment(), OnUserClickListener, OnRetryClickListener {
     }
 
     override fun onUserClick(user: UserBriefModel) {
-        findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        //todo change when complete
+        val action = UserListFragmentDirections.openUserDetails("JakeWharton")
+        findNavController().navigate(action)
     }
 
     override fun retryLoading() {

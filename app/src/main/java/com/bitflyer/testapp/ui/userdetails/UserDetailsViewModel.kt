@@ -11,9 +11,12 @@ import com.bitflyer.testapp.domain.userdetails.UserDetailsRepository
 import com.bitflyer.testapp.ui.BaseMapper
 import com.bitflyer.testapp.ui.userdetails.model.UserDetailsModel
 import com.bitflyer.testapp.ui.userdetails.state.UserDetailsScreenState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UserDetailsViewModel(
+@HiltViewModel
+class UserDetailsViewModel @Inject constructor(
     private val repository: UserDetailsRepository,
     private val mapper: BaseMapper<UserDetails, UserDetailsModel>,
     private val state: SavedStateHandle

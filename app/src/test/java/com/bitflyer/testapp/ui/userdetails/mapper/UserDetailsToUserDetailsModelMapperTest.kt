@@ -64,12 +64,6 @@ class UserDetailsToUserDetailsModelMapperTest : BaseTest() {
     }
 
     @Test
-    fun `bio is mapped correctly`() {
-        val result = mapper.map(dto)
-        assertThat(result.bio).isEqualTo(dto.bio)
-    }
-
-    @Test
     fun `followers is mapped correctly`() {
         val result = mapper.map(dto)
         assertThat(result.followers).isEqualTo(dto.followers.toString())

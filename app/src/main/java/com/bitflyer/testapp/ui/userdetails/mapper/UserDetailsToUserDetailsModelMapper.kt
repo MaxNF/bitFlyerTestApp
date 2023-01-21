@@ -15,7 +15,6 @@ class UserDetailsToUserDetailsModelMapper @Inject constructor() : BaseMapper<Use
         item.location,
         item.email,
         item.twitter,
-        item.bio,
         item.followers.toString(),
         item.following.toString(),
         item.repos.toString()

@@ -8,14 +8,13 @@ data class UserDetails(
     val login: String,
     @SerialName("avatar_url")
     val avatarUrl: String,
-    val name: String,
-    val company: String,
-    val blogUrl: String,
-    val location: String,
-    val email: String,
+    val name: String? = null,
+    val company: String? = null,
+    val blogUrl: String? = null,
+    val location: String? = null,
+    val email: String? = null,
     @SerialName("twitter_username")
-    val twitter: String,
-    val bio: String,
+    val twitter: String? = null,
     val followers: Int,
     val following: Int,
     @SerialName("public_repos")
