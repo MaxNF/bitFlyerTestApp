@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -56,10 +58,20 @@ class UserListFragment : Fragment(), OnUserClickListener, OnRetryClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.recyclerView?.let {
-            Log.d(TAG, "onViewCreated: $it")
+            binding?.recyclerView?.setOnApplyWindowInsetsListener { view, windowInsets ->
+                val bottomInset = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R){
+                    windowInsets.getInsets(WindowInsets.Type.systemBars()).bottom
+                } else{
+                    windowInsets.stableInsetBottom
+                }
+                view.updatePadding(bottom = bottomInset)
+                windowInsets
+            }
             userListAdapter = UserListAdapter(this, mapper)
             it.adapter = userListAdapter.withLoadStateFooter(UserListLoadingAdapter(this))
             it.layoutManager = LinearLayoutManager(context)
+            val decoration = DividerItemDecoration(requireContext())
+            it.addItemDecoration(decoration)
         }
         binding?.listError?.tryAgain?.setOnClickListener { userListAdapter.refresh() }
         observeViewModel()
