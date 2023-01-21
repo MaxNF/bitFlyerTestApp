@@ -11,6 +11,7 @@ import com.bitflyer.testapp.ui.BaseMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import kotlin.random.Random
 
 class UserListPagingSource(
     private val api: GithubNetworkApi,
@@ -44,10 +45,10 @@ class UserListPagingSource(
                 if (users.isNullOrEmpty()) loadFromNet(fromId, loadSize)
                 else LoadResult.Page(users, null, users.last().id + 1)
             } else {
+                dao.clearUsers()
                 loadFromNet(fromId, loadSize)
             }
         } catch (e: Exception) {
-            dao.clearUsers()
             Log.e(TAG, "error", e)
             LoadResult.Error(e)
         }
@@ -57,12 +58,14 @@ class UserListPagingSource(
         //todo uncomment when complete
 //        val users = api.getUsers(fromId, loadSize).map(entityMapper::map)
         //todo remove when complete
-        delay(1000)
+        delay(1500)
         val users = mutableListOf<UserBriefEntity>().apply {
             repeat(loadSize) {
                 this.add(UserBriefEntity(fromId + it, "login${fromId + it}", "avatar${fromId + it}"))
             }
         }
+        if (Random.nextInt(0, 3) == 0) return LoadResult.Error(Exception())
+
         Log.d(TAG, "loadFromNet: $fromId, $loadSize, ${users.size}")
         return LoadResult.Page(users, null, fromId + loadSize)
     }

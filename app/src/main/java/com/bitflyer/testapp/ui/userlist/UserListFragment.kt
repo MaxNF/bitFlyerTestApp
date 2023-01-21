@@ -6,16 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bitflyer.testapp.R
 import com.bitflyer.testapp.databinding.FragmentUserListBinding
 import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
 import com.bitflyer.testapp.ui.BaseMapper
+import com.bitflyer.testapp.ui.userlist.adapter.OnRetryClickListener
 import com.bitflyer.testapp.ui.userlist.adapter.OnUserClickListener
 import com.bitflyer.testapp.ui.userlist.adapter.UserListAdapter
+import com.bitflyer.testapp.ui.userlist.adapter.UserListLoadingAdapter
 import com.bitflyer.testapp.ui.userlist.model.UserBriefModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -23,7 +27,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class UserListFragment : Fragment(), OnUserClickListener {
+class UserListFragment : Fragment(), OnUserClickListener, OnRetryClickListener {
 
     companion object {
         private const val TAG = "UserListFragment"
@@ -54,9 +58,10 @@ class UserListFragment : Fragment(), OnUserClickListener {
         binding?.recyclerView?.let {
             Log.d(TAG, "onViewCreated: $it")
             userListAdapter = UserListAdapter(this, mapper)
-            it.adapter = userListAdapter
+            it.adapter = userListAdapter.withLoadStateFooter(UserListLoadingAdapter(this))
             it.layoutManager = LinearLayoutManager(context)
         }
+        binding?.listError?.tryAgain?.setOnClickListener { userListAdapter.refresh() }
         observeViewModel()
     }
 
@@ -69,8 +74,8 @@ class UserListFragment : Fragment(), OnUserClickListener {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             userListAdapter.loadStateFlow.collect {
-//                isLoading = it.append is LoadState.Loading
-//                if (!isLoading) binding?.progressBar?.visibility = View.GONE
+                binding?.listError?.root?.isVisible = it.refresh is LoadState.Error
+                binding?.listLoading?.root?.isVisible = it.refresh is LoadState.Loading
             }
         }
     }
@@ -88,5 +93,9 @@ class UserListFragment : Fragment(), OnUserClickListener {
 
     override fun onUserClick(user: UserBriefModel) {
         findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+    }
+
+    override fun retryLoading() {
+        userListAdapter.retry()
     }
 }

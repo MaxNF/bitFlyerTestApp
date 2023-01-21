@@ -36,4 +36,6 @@
         tincidunt nisl eleifend. Cras bibendum enim a justo luctus vestibulum. Fusce dictum libero quis erat maximus, vitae
         volutpat diam dignissim.
     </string>
+    <string name="user_brief_loading_error">Error while loading users</string>
+    <string name="try_again_button_label">Try again</string>
 </resources>

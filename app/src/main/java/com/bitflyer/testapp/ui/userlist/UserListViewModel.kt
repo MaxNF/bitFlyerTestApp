@@ -34,13 +34,12 @@ class UserListViewModel @Inject constructor(
     init {
         Log.d(TAG, ": ${state.get<Boolean>(restoreStateKey)}")
     }
-    val flow = Pager(PagingConfig(pageSize = 50, prefetchDistance = 20, initialLoadSize = 50)) {
+    val flow = Pager(PagingConfig(pageSize = 50, prefetchDistance = 20, initialLoadSize = 50, enablePlaceholders = true)) {
         UserListPagingSource(githubNetworkApi, dao, entityMapper, state[restoreStateKey] ?: false)
     }.flow.cachedIn(viewModelScope)
 
     fun saveData(list: List<UserBriefEntity>) {
         if (list.isNotEmpty()) {
-            Log.d(TAG, "saveData: ${list.size}")
             state[restoreStateKey] = true
             viewModelScope.launch {
                 userListRepository.saveUsers(list)
