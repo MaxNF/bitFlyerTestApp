@@ -1,6 +1,5 @@
 package com.bitflyer.testapp.ui.userlist
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -31,9 +30,6 @@ class UserListViewModel @Inject constructor(
         private const val restoreStateKey: String = "restore"
     }
 
-    init {
-        Log.d(TAG, ": ${state.get<Boolean>(restoreStateKey)}")
-    }
     val flow = Pager(PagingConfig(pageSize = 50, prefetchDistance = 20, initialLoadSize = 50, enablePlaceholders = true)) {
         UserListPagingSource(githubNetworkApi, dao, entityMapper, state[restoreStateKey] ?: false)
     }.flow.cachedIn(viewModelScope)
