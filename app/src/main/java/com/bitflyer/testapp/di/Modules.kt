@@ -4,12 +4,16 @@ import android.content.Context
 import androidx.room.Room
 import com.bitflyer.testapp.data.local.AppDatabase
 import com.bitflyer.testapp.data.network.GithubNetworkApi
+import com.bitflyer.testapp.data.userdetails.UserDetailsRepositoryImpl
+import com.bitflyer.testapp.data.userdetails.dto.UserDetails
 import com.bitflyer.testapp.data.userlist.UserListRepositoryImpl
 import com.bitflyer.testapp.data.userlist.dto.UserBrief
+import com.bitflyer.testapp.domain.userdetails.UserDetailsRepository
 import com.bitflyer.testapp.domain.userlist.UserListRepository
 import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
 import com.bitflyer.testapp.domain.userlist.mapper.UserBriefToUserBriefEntityMapper
 import com.bitflyer.testapp.ui.BaseMapper
+import com.bitflyer.testapp.ui.userdetails.mapper.UserDetailsToUserDetailsModelMapper
 import com.bitflyer.testapp.ui.userlist.mapper.UserBriefEntityToUserBriefModelMapper
 import com.bitflyer.testapp.ui.userlist.model.UserBriefModel
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -36,6 +40,11 @@ abstract class MapperModule {
 
     @Binds
     abstract fun provideUserListEntityMapper(mapper: UserBriefToUserBriefEntityMapper): BaseMapper<UserBrief, UserBriefEntity>
+
+    @Binds
+    abstract fun provideUserDetailsModelMapper(
+        mapper: UserDetailsToUserDetailsModelMapper
+    ): BaseMapper<UserDetails, UserDetailsToUserDetailsModelMapper>
 }
 
 @Module
@@ -43,6 +52,9 @@ abstract class MapperModule {
 abstract class RepositoryModule {
     @Binds
     abstract fun provideUserListRepo(userListRepository: UserListRepositoryImpl): UserListRepository
+
+    @Binds
+    abstract fun provideUserDetailsRepo(userDetailsRepository: UserDetailsRepositoryImpl): UserDetailsRepository
 }
 
 @Module
