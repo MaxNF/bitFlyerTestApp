@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/avatar"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="@dimen/avatar_details_width"
+            android:layout_height="@dimen/avatar_details_width"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/gray_circle" />
