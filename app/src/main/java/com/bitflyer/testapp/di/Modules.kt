@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.bitflyer.testapp.di
 
 import android.content.Context
@@ -78,7 +80,7 @@ class NetworkModule {
     }
 
     @Provides
-    fun provideGithubApi(retrofit: Retrofit) = GithubNetworkApi.create(retrofit)
+    fun provideGithubApi(retrofit: Retrofit): GithubNetworkApi = GithubNetworkApi.create(retrofit)
 }
 
 @Module

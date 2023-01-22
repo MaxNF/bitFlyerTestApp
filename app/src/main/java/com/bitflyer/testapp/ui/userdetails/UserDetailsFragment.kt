@@ -20,17 +20,14 @@ import com.bitflyer.testapp.R
 import com.bitflyer.testapp.databinding.FragmentUserDetailsBinding
 import com.bitflyer.testapp.ui.userdetails.model.UserDetailsModel
 import com.bitflyer.testapp.ui.userdetails.state.UserDetailsScreenState
+import com.bitflyer.testapp.util.setOnClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class UserDetailsFragment : Fragment() {
-    companion object {
-        private const val TAG = "UserListFragment"
-    }
-
     private val viewModel: UserDetailsViewModel by viewModels()
     private var binding: FragmentUserDetailsBinding? = null
-    val args: UserDetailsFragmentArgs by navArgs()
+    private val args: UserDetailsFragmentArgs by navArgs()
     private lateinit var login: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,19 +44,20 @@ class UserDetailsFragment : Fragment() {
         return binding!!.root
     }
 
+    @Suppress("DEPRECATION")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.detailsContent?.nestedScroll?.setOnApplyWindowInsetsListener { view, windowInsets ->
+        binding?.detailsContent?.nestedScroll?.setOnApplyWindowInsetsListener { nestedScrollView, windowInsets ->
             val bottomInset = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
                 windowInsets.getInsets(WindowInsets.Type.systemBars()).bottom
             } else {
                 windowInsets.stableInsetBottom
             }
-            view.updatePadding(bottom = bottomInset)
+            nestedScrollView.updatePadding(bottom = bottomInset)
             windowInsets
         }
 
-        binding?.loadingError?.tryAgain?.setOnClickListener { viewModel.fetchDetails(login) }
+        binding?.loadingError?.tryAgain?.setOnClickListener(500) { viewModel.fetchDetails(login) }
         observeViewModel()
     }
 
@@ -107,7 +105,7 @@ class UserDetailsFragment : Fragment() {
             it.twitterValue.isVisible = !model.twitter.isNullOrEmpty()
             it.twitterValue.text = getString(R.string.twitter_template, model.twitter)
             it.twitterValue.paintFlags = it.twitterValue.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-            it.twitterValue.setOnClickListener { openTwitterAccount(model.twitter) }
+            it.twitterValue.setOnClickListener(500) { openTwitterAccount(model.twitter) }
 
             it.totalReposValue.text = model.repos
         }
@@ -127,7 +125,7 @@ class UserDetailsFragment : Fragment() {
         if (userName == null) return
         try {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/$userName"))
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         } catch (e: Exception) {
             Toast.makeText(requireContext(), getString(R.string.unable_open_twitter_error_toast), Toast.LENGTH_LONG).show()

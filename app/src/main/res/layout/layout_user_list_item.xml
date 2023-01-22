@@ -13,6 +13,7 @@
         android:layout_height="@dimen/user_avatar_height"
         android:scaleType="centerCrop"
         android:layout_gravity="center"
+        android:contentDescription="@string/content_desc_avatar"
         android:src="@drawable/ic_launcher_background" />
 
     <TextView

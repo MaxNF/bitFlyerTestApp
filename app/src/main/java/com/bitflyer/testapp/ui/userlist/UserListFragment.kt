@@ -1,7 +1,6 @@
 package com.bitflyer.testapp.ui.userlist
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bitflyer.testapp.R
 import com.bitflyer.testapp.databinding.FragmentUserListBinding
 import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
 import com.bitflyer.testapp.ui.BaseMapper
@@ -30,14 +30,10 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class UserListFragment : Fragment(), OnUserClickListener, OnRetryClickListener {
 
-    companion object {
-        private const val TAG = "UserListFragment"
-    }
-
     private val viewModel: UserListViewModel by viewModels()
     private var binding: FragmentUserListBinding? = null
 
-    lateinit var userListAdapter: UserListAdapter
+    private lateinit var userListAdapter: UserListAdapter
 
     @Inject
     lateinit var mapper: BaseMapper<UserBriefEntity, UserBriefModel>
@@ -99,7 +95,11 @@ class UserListFragment : Fragment(), OnUserClickListener, OnRetryClickListener {
 
     override fun onUserClick(user: UserBriefModel) {
         val action = UserListFragmentDirections.openUserDetails(user.login)
-        findNavController().navigate(action)
+        findNavController().let {
+            it.currentDestination?.id?.let { currentDestinationId ->
+                if (currentDestinationId == R.id.UserList) it.navigate(action)
+            }
+        }
     }
 
     override fun retryLoading() {

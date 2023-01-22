@@ -11,12 +11,13 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/avatar"
+            android:id="@+id/avatar_shimmer"
             android:layout_width="@dimen/avatar_details_width"
             android:layout_height="@dimen/avatar_details_height"
             android:src="@drawable/gray_circle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/content_desc_avatar"/>
 
         <View
             android:id="@+id/name_shimmer"
@@ -25,8 +26,8 @@
             android:layout_marginStart="16dp"
             android:background="@color/gray_50"
             app:layout_constraintBottom_toTopOf="@id/login_shimmer"
-            app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintTop_toTopOf="@id/avatar" />
+            app:layout_constraintStart_toEndOf="@id/avatar_shimmer"
+            app:layout_constraintTop_toTopOf="@id/avatar_shimmer" />
 
         <View
             android:id="@+id/login_shimmer"
@@ -35,7 +36,7 @@
             android:layout_marginStart="16dp"
             android:background="@color/gray_50"
             app:layout_constraintBottom_toTopOf="@id/following_shimmer"
-            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintStart_toEndOf="@id/avatar_shimmer"
             app:layout_constraintTop_toBottomOf="@id/name_shimmer" />
 
         <View
@@ -45,7 +46,7 @@
             android:layout_marginStart="16dp"
             android:background="@color/gray_50"
             app:layout_constraintBottom_toTopOf="@id/followers_shimmer"
-            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintStart_toEndOf="@id/avatar_shimmer"
             app:layout_constraintTop_toBottomOf="@id/login_shimmer" />
 
         <View
@@ -54,8 +55,8 @@
             android:layout_height="16dp"
             android:layout_marginStart="16dp"
             android:background="@color/gray_50"
-            app:layout_constraintBottom_toBottomOf="@id/avatar"
-            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintBottom_toBottomOf="@id/avatar_shimmer"
+            app:layout_constraintStart_toEndOf="@id/avatar_shimmer"
             app:layout_constraintTop_toBottomOf="@id/following_shimmer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.facebook.shimmer.ShimmerFrameLayout>

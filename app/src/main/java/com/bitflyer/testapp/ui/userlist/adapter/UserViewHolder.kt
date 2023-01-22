@@ -5,6 +5,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.bitflyer.testapp.databinding.LayoutUserListItemBinding
 import com.bitflyer.testapp.ui.userlist.model.UserBriefModel
+import com.bitflyer.testapp.util.setOnClickListener
 
 class UserViewHolder(private val binding: LayoutUserListItemBinding, private val onUserClickListener: OnUserClickListener) :
     RecyclerView.ViewHolder(binding.root) {
@@ -15,6 +16,6 @@ class UserViewHolder(private val binding: LayoutUserListItemBinding, private val
             transformations(CircleCropTransformation())
             crossfade(300)
         }
-        binding.root.setOnClickListener { onUserClickListener.onUserClick(model) }
+        binding.root.setOnClickListener(500) { onUserClickListener.onUserClick(model) }
     }
 }

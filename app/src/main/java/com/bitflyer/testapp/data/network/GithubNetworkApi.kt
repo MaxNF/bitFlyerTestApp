@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface GithubNetworkApi {
         companion object {
-            fun create(retrofit: Retrofit) = retrofit.create(GithubNetworkApi::class.java)
+            fun create(retrofit: Retrofit): GithubNetworkApi = retrofit.create(GithubNetworkApi::class.java)
         }
 
         @GET("/users")

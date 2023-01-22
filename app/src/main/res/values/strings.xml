@@ -15,4 +15,5 @@
     <string name="total_repos_label">Repositories:</string>
     <string name="twitter_template">\@%s</string>
     <string name="unable_open_twitter_error_toast">App or browser for handling twitter link is not found</string>
+    <string name="content_desc_avatar">User\'s avatar</string>
 </resources>

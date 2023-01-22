@@ -18,7 +18,8 @@
             android:layout_height="@dimen/avatar_details_width"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/gray_circle" />
+            tools:src="@drawable/gray_circle"
+            android:contentDescription="@string/content_desc_avatar"/>
 
         <TextView
             style="@style/LargeText"

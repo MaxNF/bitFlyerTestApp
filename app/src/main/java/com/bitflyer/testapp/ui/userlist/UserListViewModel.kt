@@ -26,7 +26,6 @@ class UserListViewModel @Inject constructor(
     private val state: SavedStateHandle
 ) : ViewModel() {
     companion object {
-        private const val TAG = "UserListViewModel"
         private const val RESTORE_STATE_KEY: String = "restore"
     }
 
