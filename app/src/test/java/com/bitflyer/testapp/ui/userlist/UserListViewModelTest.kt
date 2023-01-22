@@ -46,16 +46,18 @@ class UserListViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `saveData invoked with empty list, saveUsers and set functions are not invoked`() {
+    fun `saveData invoked with empty list, saveUsers, clearUsers and set functions are not invoked`() {
         viewModel.saveData(emptyList())
         verify(exactly = 0) { state.set<Boolean>(any(), any()) }
         coVerify(exactly = 0) { userListRepository.saveUsers(any()) }
+        coVerify(exactly = 0) { userListRepository.clearUsers() }
     }
 
     @Test
-    fun `saveData invoked with not empty list, saveUsers and set functions are invoked`() {
+    fun `saveData invoked with not empty list, saveUsers, clearUsers and set functions are invoked`() {
         viewModel.saveData(userBriefEntityListMock)
         verify (exactly = 1) { state.set<Boolean>(any(), any()) }
         coVerify(exactly = 1) { userListRepository.saveUsers(any()) }
+        coVerify(exactly = 1) { userListRepository.clearUsers() }
     }
 }
