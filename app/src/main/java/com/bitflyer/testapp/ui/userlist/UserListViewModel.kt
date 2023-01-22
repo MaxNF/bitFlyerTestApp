@@ -38,6 +38,7 @@ class UserListViewModel @Inject constructor(
         if (list.isNotEmpty()) {
             state[RESTORE_STATE_KEY] = true
             viewModelScope.launch {
+                userListRepository.clearUsers()
                 userListRepository.saveUsers(list)
             }
         }

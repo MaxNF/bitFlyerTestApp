@@ -79,6 +79,7 @@ class UserDetailsFragment : Fragment() {
         binding?.detailsContent?.let {
             it.avatar.load(model.avatarUrl) {
                 transformations(CircleCropTransformation())
+                crossfade(300)
             }
             it.name.isVisible = !model.name.isNullOrEmpty()
             it.name.text = model.name

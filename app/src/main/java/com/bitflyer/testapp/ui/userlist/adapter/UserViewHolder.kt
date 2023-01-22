@@ -13,6 +13,7 @@ class UserViewHolder(private val binding: LayoutUserListItemBinding, private val
         binding.userName.text = model.login
         binding.userAvatar.load(model.avatarUrl) {
             transformations(CircleCropTransformation())
+            crossfade(300)
         }
         binding.root.setOnClickListener { onUserClickListener.onUserClick(model) }
     }

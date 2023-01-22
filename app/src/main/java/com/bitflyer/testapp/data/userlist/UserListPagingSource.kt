@@ -42,7 +42,6 @@ class UserListPagingSource(
                 if (users.isNullOrEmpty()) loadFromNet(fromId, loadSize)
                 else LoadResult.Page(users, null, users.last().id + 1)
             } else {
-                dao.clearUsers()
                 loadFromNet(fromId, loadSize)
             }
         } catch (e: Exception) {

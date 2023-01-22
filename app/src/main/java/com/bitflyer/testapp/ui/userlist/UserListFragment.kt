@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bitflyer.testapp.R
 import com.bitflyer.testapp.databinding.FragmentUserListBinding
 import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
 import com.bitflyer.testapp.ui.BaseMapper
@@ -77,7 +76,6 @@ class UserListFragment : Fragment(), OnUserClickListener, OnRetryClickListener {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.flow.collectLatest {
                 userListAdapter.submitData(it)
-                Log.d(TAG, "observeViewModel: $it")
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
@@ -100,8 +98,7 @@ class UserListFragment : Fragment(), OnUserClickListener, OnRetryClickListener {
     }
 
     override fun onUserClick(user: UserBriefModel) {
-        //todo change when complete
-        val action = UserListFragmentDirections.openUserDetails("MaxNF")
+        val action = UserListFragmentDirections.openUserDetails(user.login)
         findNavController().navigate(action)
     }
 
