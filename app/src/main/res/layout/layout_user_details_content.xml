@@ -21,6 +21,7 @@
             tools:src="@drawable/gray_circle" />
 
         <TextView
+            style="@style/LargeText"
             android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -32,6 +33,7 @@
             tools:text="John Smith" />
 
         <TextView
+            style="@style/MainText"
             android:id="@+id/login"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -43,6 +45,7 @@
             tools:text="JohnSmith007" />
 
         <TextView
+            style="@style/SmallText"
             android:id="@+id/following_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,6 +59,7 @@
             app:layout_constraintTop_toBottomOf="@id/login" />
 
         <TextView
+            style="@style/SmallText"
             android:id="@+id/following_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,6 +72,7 @@
             tools:text="21" />
 
         <TextView
+            style="@style/SmallText"
             android:id="@+id/followers_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,6 +86,7 @@
             app:layout_constraintTop_toBottomOf="@id/following_label" />
 
         <TextView
+            style="@style/SmallText"
             android:id="@+id/followers_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,6 +99,7 @@
             tools:text="6" />
 
         <TextView
+            style="@style/SmallText"
             android:id="@+id/blog_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,6 +108,7 @@
             app:layout_constraintTop_toBottomOf="@id/spacer" />
 
         <TextView
+            style="@style/SmallText"
             android:id="@+id/blog_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -117,18 +125,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/email_label"
+            android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/blog_label" />
 
         <TextView
+            style="@style/SmallText"
             android:id="@+id/company_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/company_label"
+            android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/email_label" />
 
         <TextView
+            style="@style/SmallText"
             android:id="@+id/company_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -140,6 +152,7 @@
             tools:text="Google" />
 
         <TextView
+            style="@style/SmallText"
             android:id="@+id/email_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -152,6 +165,8 @@
             tools:text="hello@gmail.com" />
 
         <TextView
+            style="@style/SmallText"
+            android:layout_marginTop="8dp"
             android:id="@+id/location_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -160,6 +175,7 @@
             app:layout_constraintTop_toBottomOf="@id/company_label" />
 
         <TextView
+            style="@style/SmallText"
             android:id="@+id/location_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -170,6 +186,8 @@
             tools:text="New York" />
 
         <TextView
+            style="@style/SmallText"
+            android:layout_marginTop="8dp"
             android:id="@+id/twitter_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -178,6 +196,7 @@
             app:layout_constraintTop_toBottomOf="@id/location_label" />
 
         <TextView
+            style="@style/SmallText"
             android:id="@+id/twitter_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -189,6 +208,7 @@
             tools:text="\@hello" />
 
         <TextView
+            style="@style/MainText"
             android:id="@+id/total_repos_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -198,6 +218,7 @@
             app:layout_constraintTop_toBottomOf="@id/bottom_divider" />
 
         <TextView
+            style="@style/MainText"
             android:id="@+id/total_repos_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
