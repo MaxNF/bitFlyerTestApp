@@ -64,7 +64,7 @@ class UserListPagingSource(
                 this.add(UserBriefEntity(fromId + it, "login${fromId + it}", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRA9nc9vtOqszvTTELelPfWllSPrztOkvD7rg&usqp=CAU"))
             }
         }
-        if (Random.nextInt(0, 2) == 0) return LoadResult.Error(Exception())
+//        if (Random.nextInt(0, 2) == 0) return LoadResult.Error(Exception())
 
         Log.d(TAG, "loadFromNet: $fromId, $loadSize, ${users.size}")
         return LoadResult.Page(users, null, fromId + loadSize)

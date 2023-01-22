@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/container"
+    <include
+        android:id="@+id/loading_error"
+        layout="@layout/layout_loading_error"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
-        <include
-            android:id="@+id/loading_error"
-            layout="@layout/layout_loading_error"
-            android:visibility="gone" />
+    <include
+        android:id="@+id/details_loading"
+        layout="@layout/layout_user_details_shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
-        <include
-            android:id="@+id/details_loading"
-            layout="@layout/layout_user_details_shimmer"
-            android:visibility="gone" />
-
-        <include
-            android:id="@+id/details_content"
-            layout="@layout/layout_user_details_content"
-            android:visibility="gone" />
-
-    </FrameLayout>
-</androidx.core.widget.NestedScrollView>
+    <include
+        android:id="@+id/details_content"
+        layout="@layout/layout_user_details_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+</FrameLayout>
