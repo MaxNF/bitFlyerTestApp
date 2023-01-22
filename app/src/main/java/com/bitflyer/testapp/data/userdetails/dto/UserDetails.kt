@@ -10,6 +10,7 @@ data class UserDetails(
     val avatarUrl: String,
     val name: String? = null,
     val company: String? = null,
+    @SerialName("blog")
     val blogUrl: String? = null,
     val location: String? = null,
     val email: String? = null,

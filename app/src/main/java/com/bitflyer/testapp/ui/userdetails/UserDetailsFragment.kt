@@ -1,10 +1,14 @@
 package com.bitflyer.testapp.ui.userdetails
 
+import android.content.Intent
+import android.graphics.Paint
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -12,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.bitflyer.testapp.R
 import com.bitflyer.testapp.databinding.FragmentUserDetailsBinding
 import com.bitflyer.testapp.ui.userdetails.model.UserDetailsModel
 import com.bitflyer.testapp.ui.userdetails.state.UserDetailsScreenState
@@ -75,33 +80,56 @@ class UserDetailsFragment : Fragment() {
             it.avatar.load(model.avatarUrl) {
                 transformations(CircleCropTransformation())
             }
-            it.name.isVisible = model.name != null
+            it.name.isVisible = !model.name.isNullOrEmpty()
             it.name.text = model.name
             it.login.text = model.login
             it.followersValue.text = model.followers
             it.followingValue.text = model.following
 
-            it.blogLabel.isVisible = model.blogUrl != null
-            it.blogValue.isVisible = model.blogUrl != null
+            it.blogLabel.isVisible = !model.blogUrl.isNullOrEmpty()
+            it.blogValue.isVisible = !model.blogUrl.isNullOrEmpty()
             it.blogValue.text = model.blogUrl
 
-            it.emailLabel.isVisible = model.email != null
-            it.emailValue.isVisible = model.email != null
+            it.emailLabel.isVisible = !model.email.isNullOrEmpty()
+            it.emailValue.isVisible = !model.email.isNullOrEmpty()
             it.emailValue.text = model.email
 
-            it.companyLabel.isVisible = model.company != null
-            it.companyValue.isVisible = model.company != null
+            it.companyLabel.isVisible = !model.company.isNullOrEmpty()
+            it.companyValue.isVisible = !model.company.isNullOrEmpty()
             it.companyValue.text = model.company
 
-            it.locationLabel.isVisible = model.location != null
-            it.locationValue.isVisible = model.location != null
+            it.locationLabel.isVisible = !model.location.isNullOrEmpty()
+            it.locationValue.isVisible = !model.location.isNullOrEmpty()
             it.locationValue.text = model.location
 
-            it.twitterLabel.isVisible = model.twitter != null
-            it.twitterValue.isVisible = model.twitter != null
-            it.twitterValue.text = model.twitter
+            it.twitterLabel.isVisible = !model.twitter.isNullOrEmpty()
+            it.twitterValue.isVisible = !model.twitter.isNullOrEmpty()
+            it.twitterValue.text = getString(R.string.twitter_template, model.twitter)
+            it.twitterValue.paintFlags = it.twitterValue.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+            it.twitterValue.setOnClickListener { openTwitterAccount(model.twitter) }
 
             it.totalReposValue.text = model.repos
+        }
+        setDividersVisibility(model)
+    }
+
+    private fun setDividersVisibility(model: UserDetailsModel) {
+        val isBottomDividerVisible = !model.blogUrl.isNullOrEmpty() ||
+                !model.twitter.isNullOrEmpty() ||
+                !model.location.isNullOrEmpty() ||
+                !model.company.isNullOrEmpty() ||
+                !model.email.isNullOrEmpty()
+        binding?.detailsContent?.bottomDivider?.isVisible = isBottomDividerVisible
+    }
+
+    private fun openTwitterAccount(userName: String?) {
+        if (userName == null) return
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/$userName"))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "", Toast.LENGTH_LONG).show()
         }
     }
 

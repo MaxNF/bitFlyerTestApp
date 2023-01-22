@@ -105,7 +105,7 @@ class UserListFragment : Fragment(), OnUserClickListener, OnRetryClickListener {
 
     override fun onUserClick(user: UserBriefModel) {
         //todo change when complete
-        val action = UserListFragmentDirections.openUserDetails("JakeWharton")
+        val action = UserListFragmentDirections.openUserDetails("MaxNF")
         findNavController().navigate(action)
     }
 

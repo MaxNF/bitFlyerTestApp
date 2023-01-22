@@ -96,10 +96,9 @@
             android:id="@+id/blog_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="@string/blog_label"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
+            app:layout_constraintTop_toBottomOf="@id/spacer" />
 
         <TextView
             android:id="@+id/blog_value"
@@ -110,6 +109,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/right_barrier"
             app:layout_constraintTop_toTopOf="@id/blog_label"
+            android:autoLink="web"
             tools:text="google.com" />
 
         <TextView
@@ -148,6 +148,7 @@
             app:layout_constraintStart_toEndOf="@id/right_barrier"
             app:layout_constraintTop_toBottomOf="@id/email_label"
             app:layout_constraintTop_toTopOf="@id/email_label"
+            android:autoLink="email"
             tools:text="hello@gmail.com" />
 
         <TextView
@@ -180,9 +181,11 @@
             android:id="@+id/twitter_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             app:layout_constraintBottom_toBottomOf="@id/twitter_label"
             app:layout_constraintStart_toEndOf="@id/right_barrier"
             app:layout_constraintTop_toTopOf="@id/twitter_label"
+            android:textColor="?android:textColorLink"
             tools:text="\@hello" />
 
         <TextView
@@ -212,6 +215,14 @@
             android:layout_marginTop="16dp"
             android:background="@color/gray_50"
             app:layout_constraintTop_toBottomOf="@id/barrier" />
+
+        <View
+            android:id="@+id/spacer"
+            android:layout_width="0dp"
+            android:layout_height="16dp"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <View
             android:id="@+id/bottom_divider"
