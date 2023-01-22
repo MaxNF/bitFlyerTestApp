@@ -58,10 +58,11 @@ abstract class RepositoryModule {
     abstract fun provideUserDetailsRepo(userDetailsRepository: UserDetailsRepositoryImpl): UserDetailsRepository
 }
 
+
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
-
+    @Suppress("JSON_FORMAT_REDUNDANT")
     @OptIn(ExperimentalSerializationApi::class)
     @Singleton
     @Provides

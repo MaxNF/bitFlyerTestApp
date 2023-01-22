@@ -15,6 +15,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -36,7 +37,7 @@ class UserListPagingSourceTest : BaseTest() {
     @MockK
     private lateinit var mapper: UserBriefToUserBriefEntityMapper
 
-    @MockK
+    @RelaxedMockK
     private lateinit var dao: UserListDao
 
     private lateinit var pagingSource: UserListPagingSource

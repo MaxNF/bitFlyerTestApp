@@ -129,7 +129,7 @@ class UserDetailsFragment : Fragment() {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent)
         } catch (e: Exception) {
-            Toast.makeText(requireContext(), "", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), getString(R.string.unable_open_twitter_error_toast), Toast.LENGTH_LONG).show()
         }
     }
 

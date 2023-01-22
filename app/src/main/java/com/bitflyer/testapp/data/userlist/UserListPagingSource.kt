@@ -9,9 +9,7 @@ import com.bitflyer.testapp.data.userlist.dto.UserBrief
 import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
 import com.bitflyer.testapp.ui.BaseMapper
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import kotlin.random.Random
 
 class UserListPagingSource(
     private val api: GithubNetworkApi,
@@ -37,11 +35,10 @@ class UserListPagingSource(
                 val users = try {
                     dao.getUsers()
                 } catch (e: Exception) {
-                    Log.e(TAG, "load: ", e)
+                    Log.e(TAG, "error while accessing database", e)
                     null
                 }
 
-                Log.d(TAG, "load users: ${users?.size}")
                 if (users.isNullOrEmpty()) loadFromNet(fromId, loadSize)
                 else LoadResult.Page(users, null, users.last().id + 1)
             } else {
@@ -49,24 +46,13 @@ class UserListPagingSource(
                 loadFromNet(fromId, loadSize)
             }
         } catch (e: Exception) {
-            Log.e(TAG, "error", e)
+            Log.e(TAG, "error while fetching data from github api", e)
             LoadResult.Error(e)
         }
     }
 
     private suspend fun loadFromNet(fromId: Int, loadSize: Int): LoadResult<Int, UserBriefEntity> {
-        //todo uncomment when complete
-//        val users = api.getUsers(fromId, loadSize).map(entityMapper::map)
-        //todo remove when complete
-        delay(1500)
-        val users = mutableListOf<UserBriefEntity>().apply {
-            repeat(loadSize) {
-                this.add(UserBriefEntity(fromId + it, "login${fromId + it}", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRA9nc9vtOqszvTTELelPfWllSPrztOkvD7rg&usqp=CAU"))
-            }
-        }
-//        if (Random.nextInt(0, 2) == 0) return LoadResult.Error(Exception())
-
-        Log.d(TAG, "loadFromNet: $fromId, $loadSize, ${users.size}")
+        val users = api.getUsers(fromId, loadSize).map(entityMapper::map)
         return LoadResult.Page(users, null, fromId + loadSize)
     }
 }

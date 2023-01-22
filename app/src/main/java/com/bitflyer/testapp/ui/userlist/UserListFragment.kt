@@ -43,10 +43,6 @@ class UserListFragment : Fragment(), OnUserClickListener, OnRetryClickListener {
     @Inject
     lateinit var mapper: BaseMapper<UserBriefEntity, UserBriefModel>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

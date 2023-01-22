@@ -27,7 +27,6 @@ val userDetailsMock
         "location",
         "email",
         "twitter",
-        "bio",
         1,
         2,
         3
@@ -43,7 +42,6 @@ val userDetailsModelMock
         "location",
         "email",
         "twitter",
-        "bio",
         "1",
         "2",
         "3"
