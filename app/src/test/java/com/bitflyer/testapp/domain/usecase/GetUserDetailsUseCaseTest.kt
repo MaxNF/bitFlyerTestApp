@@ -1,8 +1,7 @@
-package com.bitflyer.testapp.data.userdetails
+package com.bitflyer.testapp.domain.usecase
 
 import com.bitflyer.testapp.BaseTest
 import com.bitflyer.testapp.data.CallResult
-import com.bitflyer.testapp.data.network.GithubNetworkApi
 import com.bitflyer.testapp.domain.repository.UserDetailsRepository
 import com.bitflyer.testapp.userDetailsMock
 import com.google.common.truth.Truth.assertThat
@@ -11,51 +10,57 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Test
-import retrofit2.HttpException
-import retrofit2.Response
-import java.io.IOException
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class UserDetailsRepositoryImplTest : BaseTest() {
+class GetUserDetailsUseCaseTest : BaseTest() {
 
     @MockK
-    private lateinit var networkApi: GithubNetworkApi
-
     private lateinit var repo: UserDetailsRepository
+
+    private lateinit var useCase: GetUserDetailsUseCase
 
     override fun setUp() {
         super.setUp()
-        repo = UserDetailsRepositoryImpl(networkApi)
+        useCase = GetUserDetailsUseCase(repo)
     }
 
     @Test
-    fun `Api call finishes without exception, result is Success`() {
-        coEvery { networkApi.getUserDetails(any()) }.returns(userDetailsMock)
+    fun `Repo call returns success, use case also returns Success`() {
+        coEvery { repo.getUserDetails(any()) }.returns(CallResult.Success(userDetailsMock))
         runTest(UnconfinedTestDispatcher()) {
-            val result = repo.getUserDetails("")
+            val result = useCase("")
             assertThat(result).isInstanceOf(CallResult.Success::class.java)
             assertThat((result as CallResult.Success).value).isEqualTo(userDetailsMock)
         }
     }
 
     @Test
-    fun `Api throws IOException, result is IOError`() {
-        coEvery { networkApi.getUserDetails(any()) }.throws(IOException())
+    fun `Repo call returns IOError, use case also returns IOError`() {
+        coEvery { repo.getUserDetails(any()) }.returns(CallResult.IOError)
         runTest(UnconfinedTestDispatcher()) {
-            val result = repo.getUserDetails("")
+            val result = useCase("")
             assertThat(result).isInstanceOf(CallResult.IOError::class.java)
         }
     }
 
     @Test
-    fun `Api throws HttpException, result is HttpError`() {
-        coEvery { networkApi.getUserDetails(any()) }.throws(HttpException(Response.error<Nothing>(400, "".toResponseBody())))
+    fun `Repo call returns HttpException, use case also returns HttpError`() {
+        coEvery { repo.getUserDetails(any()) }.returns(CallResult.HttpError(400, "msg"))
         runTest(UnconfinedTestDispatcher()) {
-            val result = repo.getUserDetails("")
+            val result = useCase("")
             assertThat(result).isInstanceOf(CallResult.HttpError::class.java)
             assertThat((result as CallResult.HttpError).code).isEqualTo(400)
+            assertThat(result.message).isEqualTo("msg")
+        }
+    }
+
+    @Test
+    fun `Repo call returns UnknownError, use case also returns UnknownError`() {
+        coEvery { repo.getUserDetails(any()) }.returns(CallResult.UnknownError)
+        runTest(UnconfinedTestDispatcher()) {
+            val result = useCase("")
+            assertThat(result).isInstanceOf(CallResult.UnknownError::class.java)
         }
     }
 }

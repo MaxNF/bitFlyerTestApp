@@ -5,7 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateHandle
 import com.bitflyer.testapp.BaseTest
 import com.bitflyer.testapp.data.CallResult
-import com.bitflyer.testapp.domain.userdetails.UserDetailsRepository
+import com.bitflyer.testapp.domain.repository.UserDetailsRepository
 import com.bitflyer.testapp.ui.userdetails.mapper.UserDetailsToUserDetailsModelMapper
 import com.bitflyer.testapp.ui.userdetails.model.UserDetailsModel
 import com.bitflyer.testapp.ui.userdetails.state.UserDetailsScreenState

@@ -10,8 +10,8 @@ import com.bitflyer.testapp.data.userdetails.UserDetailsRepositoryImpl
 import com.bitflyer.testapp.data.userdetails.dto.UserDetails
 import com.bitflyer.testapp.data.userlist.UserListRepositoryImpl
 import com.bitflyer.testapp.data.userlist.dto.UserBrief
-import com.bitflyer.testapp.domain.userdetails.UserDetailsRepository
-import com.bitflyer.testapp.domain.userlist.UserListRepository
+import com.bitflyer.testapp.domain.repository.UserDetailsRepository
+import com.bitflyer.testapp.domain.repository.UserListRepository
 import com.bitflyer.testapp.data.local.UserBriefEntity
 import com.bitflyer.testapp.data.local.UserBriefToUserBriefEntityMapper
 import com.bitflyer.testapp.ui.BaseMapper

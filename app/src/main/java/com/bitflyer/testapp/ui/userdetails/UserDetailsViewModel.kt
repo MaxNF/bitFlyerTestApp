@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bitflyer.testapp.data.CallResult
 import com.bitflyer.testapp.data.userdetails.dto.UserDetails
-import com.bitflyer.testapp.domain.userdetails.UserDetailsRepository
+import com.bitflyer.testapp.domain.repository.UserDetailsRepository
 import com.bitflyer.testapp.ui.BaseMapper
 import com.bitflyer.testapp.ui.userdetails.model.UserDetailsModel
 import com.bitflyer.testapp.ui.userdetails.state.UserDetailsScreenState

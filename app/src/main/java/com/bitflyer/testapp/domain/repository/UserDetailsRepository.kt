@@ -1,4 +1,4 @@
-package com.bitflyer.testapp.domain.userdetails
+package com.bitflyer.testapp.domain.repository
 
 import com.bitflyer.testapp.data.CallResult
 import com.bitflyer.testapp.data.userdetails.dto.UserDetails
