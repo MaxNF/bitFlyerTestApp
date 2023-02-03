@@ -5,8 +5,9 @@ import com.bitflyer.testapp.BaseTest
 import com.bitflyer.testapp.data.local.UserListDao
 import com.bitflyer.testapp.data.network.GithubNetworkApi
 import com.bitflyer.testapp.data.userlist.dto.UserBrief
-import com.bitflyer.testapp.domain.repository.UserListRepository
 import com.bitflyer.testapp.data.local.UserBriefEntity
+import com.bitflyer.testapp.domain.usecase.ClearUsersUseCase
+import com.bitflyer.testapp.domain.usecase.SaveUsersUseCase
 import com.bitflyer.testapp.ui.BaseMapper
 import com.bitflyer.testapp.userBriefEntityListMock
 import io.mockk.coVerify
@@ -23,7 +24,10 @@ import org.junit.Test
 class UserListViewModelTest : BaseTest() {
 
     @RelaxedMockK
-    private lateinit var userListRepository: UserListRepository
+    private lateinit var clearUsersUseCase: ClearUsersUseCase
+
+    @RelaxedMockK
+    private lateinit var saveUsersUseCase: SaveUsersUseCase
 
     @MockK
     private lateinit var githubNetworkApi: GithubNetworkApi
@@ -42,22 +46,22 @@ class UserListViewModelTest : BaseTest() {
     override fun setUp() {
         super.setUp()
         Dispatchers.setMain(UnconfinedTestDispatcher())
-        viewModel = UserListViewModel(userListRepository, githubNetworkApi, dao, entityMapper, state)
+        viewModel = UserListViewModel(clearUsersUseCase, saveUsersUseCase, githubNetworkApi, dao, entityMapper, state)
     }
 
     @Test
     fun `saveData invoked with empty list, saveUsers, clearUsers and set functions are not invoked`() {
         viewModel.saveData(emptyList())
         verify(exactly = 0) { state.set<Boolean>(any(), any()) }
-        coVerify(exactly = 0) { userListRepository.saveUsers(any()) }
-        coVerify(exactly = 0) { userListRepository.clearUsers() }
+        coVerify(exactly = 0) { saveUsersUseCase.invoke(any()) }
+        coVerify(exactly = 0) { clearUsersUseCase.invoke() }
     }
 
     @Test
     fun `saveData invoked with not empty list, saveUsers, clearUsers and set functions are invoked`() {
         viewModel.saveData(userBriefEntityListMock)
         verify (exactly = 1) { state.set<Boolean>(any(), any()) }
-        coVerify(exactly = 1) { userListRepository.saveUsers(any()) }
-        coVerify(exactly = 1) { userListRepository.clearUsers() }
+        coVerify(exactly = 1) { saveUsersUseCase.invoke(any()) }
+        coVerify(exactly = 1) { clearUsersUseCase.invoke() }
     }
 }

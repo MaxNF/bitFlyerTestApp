@@ -10,8 +10,9 @@ import com.bitflyer.testapp.data.local.UserListDao
 import com.bitflyer.testapp.data.network.GithubNetworkApi
 import com.bitflyer.testapp.data.userlist.UserListPagingSource
 import com.bitflyer.testapp.data.userlist.dto.UserBrief
-import com.bitflyer.testapp.domain.repository.UserListRepository
 import com.bitflyer.testapp.data.local.UserBriefEntity
+import com.bitflyer.testapp.domain.usecase.ClearUsersUseCase
+import com.bitflyer.testapp.domain.usecase.SaveUsersUseCase
 import com.bitflyer.testapp.ui.BaseMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserListViewModel @Inject constructor(
-    private val userListRepository: UserListRepository,
+    private val clearUsersUseCase: ClearUsersUseCase,
+    private val saveUsersUseCase: SaveUsersUseCase,
     githubNetworkApi: GithubNetworkApi,
     dao: UserListDao,
     entityMapper: BaseMapper<UserBrief, UserBriefEntity>,
@@ -37,8 +39,8 @@ class UserListViewModel @Inject constructor(
         if (list.isNotEmpty()) {
             state[RESTORE_STATE_KEY] = true
             viewModelScope.launch {
-                userListRepository.clearUsers()
-                userListRepository.saveUsers(list)
+                clearUsersUseCase()
+                saveUsersUseCase(list)
             }
         }
     }
