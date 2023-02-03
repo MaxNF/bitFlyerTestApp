@@ -15,7 +15,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bitflyer.testapp.R
 import com.bitflyer.testapp.databinding.FragmentUserListBinding
-import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
+import com.bitflyer.testapp.data.local.UserBriefEntity
 import com.bitflyer.testapp.ui.BaseMapper
 import com.bitflyer.testapp.ui.userlist.adapter.OnRetryClickListener
 import com.bitflyer.testapp.ui.userlist.adapter.OnUserClickListener

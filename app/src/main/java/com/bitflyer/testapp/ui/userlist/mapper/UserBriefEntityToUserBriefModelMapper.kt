@@ -1,6 +1,6 @@
 package com.bitflyer.testapp.ui.userlist.mapper
 
-import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
+import com.bitflyer.testapp.data.local.UserBriefEntity
 import com.bitflyer.testapp.ui.BaseMapper
 import com.bitflyer.testapp.ui.userlist.model.UserBriefModel
 import javax.inject.Inject

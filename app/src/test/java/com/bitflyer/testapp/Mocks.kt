@@ -2,7 +2,7 @@ package com.bitflyer.testapp
 
 import com.bitflyer.testapp.data.userdetails.dto.UserDetails
 import com.bitflyer.testapp.data.userlist.dto.UserBrief
-import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
+import com.bitflyer.testapp.data.local.UserBriefEntity
 import com.bitflyer.testapp.ui.userdetails.model.UserDetailsModel
 
 val userBriefMock

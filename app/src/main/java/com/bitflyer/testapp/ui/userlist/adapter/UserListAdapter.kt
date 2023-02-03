@@ -6,7 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.bitflyer.testapp.R
 import com.bitflyer.testapp.databinding.LayoutUserListItemBinding
-import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
+import com.bitflyer.testapp.data.local.UserBriefEntity
 import com.bitflyer.testapp.ui.BaseMapper
 import com.bitflyer.testapp.ui.userlist.model.UserBriefModel
 

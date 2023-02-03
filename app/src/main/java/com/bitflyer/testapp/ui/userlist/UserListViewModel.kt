@@ -11,7 +11,7 @@ import com.bitflyer.testapp.data.network.GithubNetworkApi
 import com.bitflyer.testapp.data.userlist.UserListPagingSource
 import com.bitflyer.testapp.data.userlist.dto.UserBrief
 import com.bitflyer.testapp.domain.userlist.UserListRepository
-import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
+import com.bitflyer.testapp.data.local.UserBriefEntity
 import com.bitflyer.testapp.ui.BaseMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

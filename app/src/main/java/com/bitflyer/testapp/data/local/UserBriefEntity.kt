@@ -1,4 +1,4 @@
-package com.bitflyer.testapp.domain.userlist.entity
+package com.bitflyer.testapp.data.local
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

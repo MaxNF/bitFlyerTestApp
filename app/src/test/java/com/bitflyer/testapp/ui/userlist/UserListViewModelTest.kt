@@ -6,7 +6,7 @@ import com.bitflyer.testapp.data.local.UserListDao
 import com.bitflyer.testapp.data.network.GithubNetworkApi
 import com.bitflyer.testapp.data.userlist.dto.UserBrief
 import com.bitflyer.testapp.domain.userlist.UserListRepository
-import com.bitflyer.testapp.domain.userlist.entity.UserBriefEntity
+import com.bitflyer.testapp.data.local.UserBriefEntity
 import com.bitflyer.testapp.ui.BaseMapper
 import com.bitflyer.testapp.userBriefEntityListMock
 import io.mockk.coVerify
