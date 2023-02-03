@@ -38,6 +38,11 @@ class UserListFragment : Fragment(), OnUserClickListener, OnRetryClickListener {
     @Inject
     lateinit var mapper: BaseMapper<UserBriefEntity, UserBriefModel>
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        userListAdapter = UserListAdapter(this, mapper)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,7 +63,6 @@ class UserListFragment : Fragment(), OnUserClickListener, OnRetryClickListener {
                 view.updatePadding(bottom = bottomInset)
                 windowInsets
             }
-            userListAdapter = UserListAdapter(this, mapper)
             it.adapter = userListAdapter.withLoadStateFooter(UserListLoadingAdapter(this))
             it.layoutManager = LinearLayoutManager(context)
             val decoration = DividerItemDecoration(requireContext())
