@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bitflyer.testapp.data.CallResult
 import com.bitflyer.testapp.data.userdetails.dto.UserDetails
-import com.bitflyer.testapp.domain.repository.UserDetailsRepository
+import com.bitflyer.testapp.domain.usecase.GetUserDetailsUseCase
 import com.bitflyer.testapp.ui.BaseMapper
 import com.bitflyer.testapp.ui.userdetails.model.UserDetailsModel
 import com.bitflyer.testapp.ui.userdetails.state.UserDetailsScreenState
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserDetailsViewModel @Inject constructor(
-    private val repository: UserDetailsRepository,
+    private val getUserDetailsUseCase: GetUserDetailsUseCase,
     private val mapper: BaseMapper<UserDetails, UserDetailsModel>,
     private val state: SavedStateHandle
 ) : ViewModel() {
@@ -34,7 +34,7 @@ class UserDetailsViewModel @Inject constructor(
         else {
             _screenState.value = UserDetailsScreenState.Loading
             viewModelScope.launch {
-                when (val userDetails = repository.getUserDetails(login)) {
+                when (val userDetails = getUserDetailsUseCase(login)) {
                     is CallResult.Success -> {
                         val model = mapper.map(userDetails.value)
                         _screenState.value = UserDetailsScreenState.Loaded(model)

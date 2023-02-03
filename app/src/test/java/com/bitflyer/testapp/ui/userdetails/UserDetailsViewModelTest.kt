@@ -5,7 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateHandle
 import com.bitflyer.testapp.BaseTest
 import com.bitflyer.testapp.data.CallResult
-import com.bitflyer.testapp.domain.repository.UserDetailsRepository
+import com.bitflyer.testapp.domain.usecase.GetUserDetailsUseCase
 import com.bitflyer.testapp.ui.userdetails.mapper.UserDetailsToUserDetailsModelMapper
 import com.bitflyer.testapp.ui.userdetails.model.UserDetailsModel
 import com.bitflyer.testapp.ui.userdetails.state.UserDetailsScreenState
@@ -29,7 +29,7 @@ class UserDetailsViewModelTest : BaseTest() {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @MockK
-    private lateinit var repo: UserDetailsRepository
+    private lateinit var useCase: GetUserDetailsUseCase
 
     @MockK
     private lateinit var mapper: UserDetailsToUserDetailsModelMapper
@@ -47,7 +47,7 @@ class UserDetailsViewModelTest : BaseTest() {
     override fun setUp() {
         super.setUp()
         Dispatchers.setMain(UnconfinedTestDispatcher())
-        viewModel = UserDetailsViewModel(repo, mapper, stateHandle)
+        viewModel = UserDetailsViewModel(useCase, mapper, stateHandle)
         viewModel.screenState.observeForever(observer)
         every { observer.onChanged(capture(arguments)) } answers { }
     }
@@ -63,7 +63,7 @@ class UserDetailsViewModelTest : BaseTest() {
     @Test
     fun `savedStateHandle is null and repo call is successful, Loading and Loaded events are received`() {
         every { stateHandle.get<UserDetailsModel>(any()) }.returns(null)
-        coEvery { repo.getUserDetails(any()) }.returns(CallResult.Success(userDetailsMock))
+        coEvery { useCase.invoke(any()) }.returns(CallResult.Success(userDetailsMock))
         every { mapper.map(any()) }.returns(userDetailsModelMock)
         viewModel.fetchDetails("")
         assertThat(arguments[0]).isInstanceOf(UserDetailsScreenState.Loading::class.java)
@@ -73,7 +73,7 @@ class UserDetailsViewModelTest : BaseTest() {
     @Test
     fun `savedStateHandle is null and repo call is not successful, Loading and Error events are received`() {
         every { stateHandle.get<UserDetailsModel>(any()) }.returns(null)
-        coEvery { repo.getUserDetails(any()) }.returns(CallResult.IOError)
+        coEvery { useCase.invoke(any()) }.returns(CallResult.IOError)
         viewModel.fetchDetails("")
         assertThat(arguments[0]).isInstanceOf(UserDetailsScreenState.Loading::class.java)
         assertThat((arguments[1])).isInstanceOf(UserDetailsScreenState.Error::class.java)
