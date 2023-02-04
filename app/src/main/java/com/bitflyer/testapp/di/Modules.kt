@@ -3,6 +3,9 @@
 package com.bitflyer.testapp.di
 
 import android.content.Context
+import androidx.lifecycle.SavedStateHandle
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.room.Room
 import com.bitflyer.testapp.data.local.AppDatabase
 import com.bitflyer.testapp.data.network.GithubNetworkApi
@@ -14,9 +17,12 @@ import com.bitflyer.testapp.domain.repository.UserDetailsRepository
 import com.bitflyer.testapp.domain.repository.UserListRepository
 import com.bitflyer.testapp.data.local.UserBriefEntity
 import com.bitflyer.testapp.data.local.UserBriefToUserBriefEntityMapper
+import com.bitflyer.testapp.data.local.UserListDao
+import com.bitflyer.testapp.data.userlist.UserListPagingSource
 import com.bitflyer.testapp.ui.BaseMapper
 import com.bitflyer.testapp.ui.userdetails.mapper.UserDetailsToUserDetailsModelMapper
 import com.bitflyer.testapp.ui.userdetails.model.UserDetailsModel
+import com.bitflyer.testapp.ui.userlist.UserListViewModel
 import com.bitflyer.testapp.ui.userlist.mapper.UserBriefEntityToUserBriefModelMapper
 import com.bitflyer.testapp.ui.userlist.model.UserBriefModel
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -60,6 +66,19 @@ abstract class RepositoryModule {
     abstract fun provideUserDetailsRepo(userDetailsRepository: UserDetailsRepositoryImpl): UserDetailsRepository
 }
 
+@Module
+@InstallIn(ViewModelComponent::class)
+class PagingModule {
+    @Provides
+    fun providePager(
+        api: GithubNetworkApi,
+        dao: UserListDao,
+        mapper: UserBriefToUserBriefEntityMapper,
+        stateHandle: SavedStateHandle
+    ) = Pager(PagingConfig(pageSize = 50, prefetchDistance = 20, initialLoadSize = 50, enablePlaceholders = true)) {
+        UserListPagingSource(api, dao, mapper, stateHandle[UserListViewModel.RESTORE_STATE_KEY] ?: false)
+    }
+}
 
 @Module
 @InstallIn(SingletonComponent::class)

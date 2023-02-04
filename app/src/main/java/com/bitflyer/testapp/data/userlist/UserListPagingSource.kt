@@ -19,15 +19,18 @@ class UserListPagingSource(
 ) : PagingSource<Int, UserBriefEntity>() {
     companion object {
         private const val TAG = "UserListPagingSource"
+        private const val STARTING_ID = 0
+        private const val MIN_LOAD_SIZE = 1
+        private const val MAX_LOAD_SIZE = 100
     }
 
     override fun getRefreshKey(state: PagingState<Int, UserBriefEntity>): Int {
-        return state.anchorPosition ?: 1
+        return state.anchorPosition ?: STARTING_ID
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UserBriefEntity> = withContext(Dispatchers.IO) {
-        val fromId = params.key ?: 1
-        val loadSize = params.loadSize.coerceIn(1..100)
+        val fromId = params.key ?: STARTING_ID
+        val loadSize = params.loadSize.coerceIn(MIN_LOAD_SIZE..MAX_LOAD_SIZE)
         try {
             if (restoreState) {
                 restoreState = false
@@ -38,9 +41,8 @@ class UserListPagingSource(
                     Log.e(TAG, "error while accessing database", e)
                     null
                 }
-
                 if (users.isNullOrEmpty()) loadFromNet(fromId, loadSize)
-                else LoadResult.Page(users, null, users.last().id + 1)
+                else LoadResult.Page(users, null, users.last().id)
             } else {
                 loadFromNet(fromId, loadSize)
             }
