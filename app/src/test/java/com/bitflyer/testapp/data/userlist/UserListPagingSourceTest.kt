@@ -51,10 +51,10 @@ class UserListPagingSourceTest : BaseTest() {
     }
 
     @Test
-    fun `getRefreshKey return 1`() {
+    fun `getRefreshKey return 0`() {
         pagingSource = UserListPagingSource(networkApi, dao, mapper, false)
         val result = pagingSource.getRefreshKey(PagingState(listOf(), null, pagingConfig, 0))
-        assertThat(result).isEqualTo(1)
+        assertThat(result).isEqualTo(0)
     }
 
     @Test
