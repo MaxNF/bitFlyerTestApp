@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun proceedCompose() {
-
         setContent {
             BitflyerTheme {
                 BitflyerApp()

@@ -9,16 +9,17 @@ import com.bitflyer.testapp.ui.userdetails.UserDetailsViewModel
 import com.bitflyer.testapp.ui.userlist.UserListViewModel
 
 fun NavGraphBuilder.userListScreen(onDetailsClick: (String) -> Unit) {
-        composable(Destination.UserList.route) {
-            val viewModel: UserListViewModel = hiltViewModel()
-             UserListScreen(viewModel.flow, onDetailsClick)
-        }
+    composable(Destination.UserList.route) {
+        val viewModel: UserListViewModel = hiltViewModel()
+        UserListScreen(viewModel.flow, onDetailsClick)
     }
+}
 
-fun NavGraphBuilder.userDetailsScreen(login: String, onBackClick: () -> Unit) {
-    composable(Destination.UserDetails.route, arguments = Destination.UserDetails.arguments) {
+fun NavGraphBuilder.userDetailsScreen(onBackClick: () -> Unit) {
+    composable(route = Destination.UserDetails.route) { navBackStackEntry ->
+        val login = navBackStackEntry.arguments?.getString("login")
         val viewModel: UserDetailsViewModel = hiltViewModel()
-        viewModel.fetchDetails(login)
+        viewModel.fetchDetails(login ?: "")
         UserDetailsScreen(onReloadClick = viewModel::fetchDetails, onBackClick)
     }
 }
