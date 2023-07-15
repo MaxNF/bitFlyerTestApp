@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun proceedView() {
+    private fun proceedView() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
-    fun proceedCompose() {
+    private fun proceedCompose() {
         setContent {
             BitflyerTheme {
                 BitflyerApp()

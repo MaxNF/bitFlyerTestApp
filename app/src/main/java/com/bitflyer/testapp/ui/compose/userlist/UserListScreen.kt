@@ -1,7 +1,7 @@
 package com.bitflyer.testapp.ui.compose.userlist
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -40,7 +43,15 @@ fun UserList(
     userBriefs: LazyPagingItems<UserBriefEntity>,
     onUserDetailsClick: (String) -> Unit,
 ) {
-    LazyColumn(contentPadding = PaddingValues(bottom = 32.dp)) {
+    LazyColumn(
+        contentPadding = PaddingValues(
+            top = 16.dp,
+            start = 16.dp,
+            end = 16.dp,
+            bottom = 32.dp
+        ),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         items(userBriefs.itemCount) {
             val userBrief = userBriefs[it]
             userBrief?.let {
@@ -52,21 +63,30 @@ fun UserList(
 
 @Composable
 fun UserListItem(item: UserBriefEntity, onClick: (String) -> Unit) {
-    Box(
+    Surface(
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.tertiary,
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick(item.login) },
     ) {
-        Row(modifier = Modifier.padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             AsyncImage(
                 model = item.avatarUrl,
                 contentDescription = null,
                 modifier = Modifier
-                    .size(100.dp)
+                    .padding(vertical = 8.dp)
+                    .size(80.dp)
                     .clip(shape = CircleShape)
             )
             Text(
-                text = item.login, textAlign = TextAlign.Center, modifier = Modifier
+                style = MaterialTheme.typography.titleMedium,
+                text = item.login,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
             )
