@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -22,7 +23,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ParagraphStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -30,6 +36,7 @@ import coil.compose.AsyncImage
 import com.bitflyer.testapp.R
 import com.bitflyer.testapp.ui.userdetails.model.UserDetailsModel
 import com.bitflyer.testapp.ui.userdetails.state.UserDetailsScreenState
+import com.bitflyer.testapp.util.checkWebLink
 import com.valentinilk.shimmer.shimmer
 
 @Composable
@@ -56,7 +63,42 @@ fun UserDetailsScreen(
 
 @Composable
 fun LoadingState() {
-    Text(modifier = Modifier.shimmer(), text = "Loading")
+    Column(modifier = Modifier.shimmer()) {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Surface(
+                modifier = Modifier
+                    .size(100.dp)
+                    .clip(CircleShape),
+                color = MaterialTheme.colorScheme.tertiary,
+            ) {}
+            Surface(
+                shape = RoundedCornerShape(8.dp),
+                color = MaterialTheme.colorScheme.tertiary,
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .fillMaxWidth()
+                    .height(100.dp)
+            ) {}
+        }
+        Spacer(modifier = Modifier.height(height = 12.dp))
+        Surface(
+            shape = RoundedCornerShape(8.dp),
+            color = MaterialTheme.colorScheme.tertiary,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+        ) {}
+        Spacer(modifier = Modifier.height(height = 8.dp))
+        Divider(color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Spacer(modifier = Modifier.height(8.dp))
+        Surface(
+            shape = RoundedCornerShape(8.dp),
+            color = MaterialTheme.colorScheme.secondaryContainer,
+            modifier = Modifier
+                .width(150.dp)
+                .height(24.dp)
+        ) {}
+    }
 }
 
 @Composable
@@ -156,6 +198,7 @@ fun DetailsSection(model: UserDetailsModel) {
         modifier = Modifier
             .fillMaxWidth()
     ) {
+
         ConstraintLayout(modifier = Modifier.padding(8.dp)) {
             val (websiteLabel,
                 websiteVal,
@@ -179,16 +222,29 @@ fun DetailsSection(model: UserDetailsModel) {
                 text = stringResource(id = R.string.blog_label),
                 style = MaterialTheme.typography.bodyMedium
             )
-            Text(
+            val websiteUrl = model.blogUrl ?: ""
+            HyperlinkText(
                 modifier = Modifier
                     .constrainAs(websiteVal) {
                         top.linkTo(websiteLabel.top)
                         start.linkTo(barrier)
                     }
                     .padding(start = 8.dp),
-                text = model.blogUrl ?: "",
-                style = MaterialTheme.typography.bodyMedium
+                fullText = websiteUrl,
+                links = listOf(websiteUrl to websiteUrl),
+                linksStyle = MaterialTheme.typography.bodyMedium,
+                linksColor = Color.Blue
             )
+//            Text(
+//                modifier = Modifier
+//                    .constrainAs(websiteVal) {
+//                        top.linkTo(websiteLabel.top)
+//                        start.linkTo(barrier)
+//                    }
+//                    .padding(start = 8.dp),
+//                text = model.blogUrl ?: "",
+//                style = MaterialTheme.typography.bodyMedium
+//            )
             Text(
                 modifier = Modifier.constrainAs(companyLabel) {
                     top.linkTo(websiteVal.bottom)
@@ -244,6 +300,53 @@ fun DetailsSection(model: UserDetailsModel) {
                 style = MaterialTheme.typography.bodyMedium
             )
         }
+    }
+}
+
+@Composable
+fun HyperlinkText(
+    modifier: Modifier,
+    fullText: String,
+    links: List<Pair<String, String>>,
+    linksStyle: TextStyle,
+    linksColor: Color,
+) {
+    val annotatedString = buildAnnotatedString {
+        append(fullText)
+        val spanStyle = linksStyle.toSpanStyle()
+        addStyle(
+            style = spanStyle,
+            start = 0,
+            end = fullText.length
+        )
+        links.forEach {
+            val string = it.first
+            val link = it.second
+            val startIndex = fullText.indexOf(string)
+            val endIndex = startIndex + link.length
+            ParagraphStyle()
+            addStyle(
+                style = spanStyle.copy(color = linksColor),
+                start = startIndex,
+                end = endIndex
+            )
+            addStringAnnotation(
+                tag = "LINK",
+                annotation = checkWebLink(link),
+                start = startIndex,
+                end = endIndex
+            )
+        }
+    }
+
+    val uriHandler = LocalUriHandler.current
+    ClickableText(
+        modifier = modifier,
+        text = annotatedString) {
+        annotatedString.getStringAnnotations("LINK", it, it)
+            .firstOrNull()?.let { annotation ->
+                uriHandler.openUri(annotation.item)
+            }
     }
 }
 
