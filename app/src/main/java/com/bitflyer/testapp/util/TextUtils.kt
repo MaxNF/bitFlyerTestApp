@@ -1,9 +1,8 @@
 package com.bitflyer.testapp.util
 
-fun checkWebLink(s: String): String {
-    return if (s.startsWith("http://") || s.startsWith("https://")) {
-        s
-    } else {
-        return """http://$s"""
-    }
-}
+fun getWebLink(s: String): String =
+    if (s.startsWith("http://") || s.startsWith("https://")) s
+    else """http://$s"""
+
+
+fun getTwitterLink(s: String): String = """https://twitter.com/$s"""

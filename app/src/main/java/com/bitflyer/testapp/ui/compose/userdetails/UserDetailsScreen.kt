@@ -36,7 +36,8 @@ import coil.compose.AsyncImage
 import com.bitflyer.testapp.R
 import com.bitflyer.testapp.ui.userdetails.model.UserDetailsModel
 import com.bitflyer.testapp.ui.userdetails.state.UserDetailsScreenState
-import com.bitflyer.testapp.util.checkWebLink
+import com.bitflyer.testapp.util.getTwitterLink
+import com.bitflyer.testapp.util.getWebLink
 import com.valentinilk.shimmer.shimmer
 
 @Composable
@@ -222,7 +223,6 @@ fun DetailsSection(model: UserDetailsModel) {
                 text = stringResource(id = R.string.blog_label),
                 style = MaterialTheme.typography.bodyMedium
             )
-            val websiteUrl = model.blogUrl ?: ""
             HyperlinkText(
                 modifier = Modifier
                     .constrainAs(websiteVal) {
@@ -230,21 +230,12 @@ fun DetailsSection(model: UserDetailsModel) {
                         start.linkTo(barrier)
                     }
                     .padding(start = 8.dp),
-                fullText = websiteUrl,
-                links = listOf(websiteUrl to websiteUrl),
+                fullText = model.blogUrl ?: "",
+                links = if (model.blogUrl.isNullOrEmpty()) emptyList() else
+                    listOf(model.blogUrl to getWebLink(model.blogUrl)),
                 linksStyle = MaterialTheme.typography.bodyMedium,
                 linksColor = Color.Blue
             )
-//            Text(
-//                modifier = Modifier
-//                    .constrainAs(websiteVal) {
-//                        top.linkTo(websiteLabel.top)
-//                        start.linkTo(barrier)
-//                    }
-//                    .padding(start = 8.dp),
-//                text = model.blogUrl ?: "",
-//                style = MaterialTheme.typography.bodyMedium
-//            )
             Text(
                 modifier = Modifier.constrainAs(companyLabel) {
                     top.linkTo(websiteVal.bottom)
@@ -289,15 +280,18 @@ fun DetailsSection(model: UserDetailsModel) {
                 text = stringResource(id = R.string.twitter_label),
                 style = MaterialTheme.typography.bodyMedium
             )
-            Text(
+            HyperlinkText(
                 modifier = Modifier
                     .constrainAs(twitterVal) {
                         top.linkTo(twitterLabel.top)
                         start.linkTo(barrier)
                     }
                     .padding(start = 8.dp),
-                text = model.twitter ?: "",
-                style = MaterialTheme.typography.bodyMedium
+                fullText = model.twitter ?: "",
+                links = if (model.twitter.isNullOrEmpty()) emptyList() else
+                    listOf(model.twitter to getTwitterLink(model.twitter)),
+                linksStyle = MaterialTheme.typography.bodyMedium,
+                linksColor = Color.Blue
             )
         }
     }
@@ -323,8 +317,7 @@ fun HyperlinkText(
             val string = it.first
             val link = it.second
             val startIndex = fullText.indexOf(string)
-            val endIndex = startIndex + link.length
-            ParagraphStyle()
+            val endIndex = startIndex + string.length
             addStyle(
                 style = spanStyle.copy(color = linksColor),
                 start = startIndex,
@@ -332,7 +325,7 @@ fun HyperlinkText(
             )
             addStringAnnotation(
                 tag = "LINK",
-                annotation = checkWebLink(link),
+                annotation = link,
                 start = startIndex,
                 end = endIndex
             )
@@ -342,7 +335,8 @@ fun HyperlinkText(
     val uriHandler = LocalUriHandler.current
     ClickableText(
         modifier = modifier,
-        text = annotatedString) {
+        text = annotatedString
+    ) {
         annotatedString.getStringAnnotations("LINK", it, it)
             .firstOrNull()?.let { annotation ->
                 uriHandler.openUri(annotation.item)
