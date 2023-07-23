@@ -55,7 +55,9 @@ fun BitflyerApp(navController: NavHostController) {
         NavHost(
             modifier = Modifier
                 .padding(it)
-                .consumeWindowInsets(it), navController = navController, startDestination = Destination.UserList.route
+                .consumeWindowInsets(it),
+            navController = navController,
+            startDestination = Destination.UserList.route
         ) {
             userListScreen { login ->
                 navController.navigate(
@@ -74,19 +76,26 @@ fun TopBar(entry: NavBackStackEntry?, navController: NavHostController) {
     val parentWidth = remember<MutableState<Float?>> { mutableStateOf(null) }
     TopAppBar(
         modifier = Modifier.onGloballyPositioned {
-            parentWidth.value = it.parentLayoutCoordinates?.size?.toSize()?.width
+            parentWidth.value =
+                it.parentLayoutCoordinates?.size?.toSize()?.width
         },
         navigationIcon = {
             if (currentRoute != Destination.UserList.route) {
                 IconButton(onClick = navController::popBackStack) {
-                    Icon(imageVector = Icons.Rounded.ArrowBack, contentDescription = null)
+                    Icon(
+                        imageVector = Icons.Rounded.ArrowBack,
+                        contentDescription = null
+                    )
                 }
             }
         },
         title = {
             val title = when (currentRoute) {
                 Destination.UserList.route -> "Github Users"
-                Destination.UserDetails.route -> navController.currentBackStackEntry?.arguments?.getString("login") ?: ""
+                Destination.UserDetails.route -> navController.currentBackStackEntry?.arguments?.getString(
+                    "login"
+                ) ?: ""
+
                 else -> ""
             }
             TopBarTitle(title = title, parentWidth.value)
@@ -101,8 +110,13 @@ fun TopBarTitle(title: String, parentWidth: Float?) {
         val dp = with(LocalDensity.current) { parentWidth.toDp() }
         val transition = rememberInfiniteTransition()
         jumping = transition.animateFloat(
-            initialValue = 0f, targetValue = dp.value / 2f, animationSpec = infiniteRepeatable(
-                animation = tween(500, easing = CubicBezierEasing(0f, 0f, 0.2f, 1.0f)),
+            initialValue = 0f,
+            targetValue = dp.value / 2f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(
+                    500,
+                    easing = CubicBezierEasing(0f, 0f, 0.2f, 1.0f)
+                ),
                 repeatMode = RepeatMode.Reverse
             )
         )
@@ -123,7 +137,12 @@ fun TopBarTitle(title: String, parentWidth: Float?) {
 }
 
 private fun getRandomColor(): Color =
-    Color(red = Random.nextInt(256), green = Random.nextInt(256), blue = Random.nextInt(256), alpha = 255)
+    Color(
+        red = Random.nextInt(256),
+        green = Random.nextInt(256),
+        blue = Random.nextInt(256),
+        alpha = 255
+    )
 
 @Preview()
 @Composable
