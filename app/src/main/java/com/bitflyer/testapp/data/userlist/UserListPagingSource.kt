@@ -54,6 +54,7 @@ class UserListPagingSource(
 
     private suspend fun loadFromNet(fromId: Int, loadSize: Int): LoadResult<Int, UserBriefEntity> {
         val users = api.getUsers(fromId, loadSize).map(entityMapper::map)
-        return LoadResult.Page(users, null, fromId + loadSize)
+        val lastId = users.lastOrNull()?.id
+        return LoadResult.Page(users, null, lastId)
     }
 }
