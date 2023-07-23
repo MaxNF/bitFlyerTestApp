@@ -6,7 +6,7 @@ import com.bitflyer.testapp.BaseTest
 import com.bitflyer.testapp.data.local.UserBriefEntity
 import com.bitflyer.testapp.data.local.UserListDao
 import com.bitflyer.testapp.domain.repository.UserListRepository
-import com.bitflyer.testapp.userBriefEntityListMock
+import com.biyflyer.testapp.userBriefEntityListMock
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

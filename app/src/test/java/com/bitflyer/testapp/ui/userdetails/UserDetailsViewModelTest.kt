@@ -9,8 +9,8 @@ import com.bitflyer.testapp.domain.usecase.GetUserDetailsUseCase
 import com.bitflyer.testapp.ui.userdetails.mapper.UserDetailsToUserDetailsModelMapper
 import com.bitflyer.testapp.ui.userdetails.model.UserDetailsModel
 import com.bitflyer.testapp.ui.userdetails.state.UserDetailsScreenState
-import com.bitflyer.testapp.userDetailsMock
-import com.bitflyer.testapp.userDetailsModelMock
+import com.biyflyer.testapp.userDetailsMock
+import com.biyflyer.testapp.userDetailsModelMock
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.every
@@ -54,20 +54,28 @@ class UserDetailsViewModelTest : BaseTest() {
 
     @Test
     fun `savedStateHandle is not null, Loaded event is received`() {
-        every { stateHandle.get<UserDetailsModel>(any()) }.returns(userDetailsModelMock)
+        every { stateHandle.get<UserDetailsModel>(any()) }.returns(
+            userDetailsModelMock
+        )
         viewModel.fetchDetails("")
         assertThat(arguments[0]).isInstanceOf(UserDetailsScreenState.Loaded::class.java)
-        assertThat((arguments[0] as UserDetailsScreenState.Loaded).model).isEqualTo(userDetailsModelMock)
+        assertThat((arguments[0] as UserDetailsScreenState.Loaded).model).isEqualTo(
+            userDetailsModelMock
+        )
     }
 
     @Test
     fun `savedStateHandle is null and repo call is successful, Loading and Loaded events are received`() {
         every { stateHandle.get<UserDetailsModel>(any()) }.returns(null)
-        coEvery { useCase.invoke(any()) }.returns(CallResult.Success(userDetailsMock))
+        coEvery { useCase.invoke(any()) }.returns(CallResult.Success(
+            userDetailsMock
+        ))
         every { mapper.map(any()) }.returns(userDetailsModelMock)
         viewModel.fetchDetails("")
         assertThat(arguments[0]).isInstanceOf(UserDetailsScreenState.Loading::class.java)
-        assertThat((arguments[1] as UserDetailsScreenState.Loaded).model).isEqualTo(userDetailsModelMock)
+        assertThat((arguments[1] as UserDetailsScreenState.Loaded).model).isEqualTo(
+            userDetailsModelMock
+        )
     }
 
     @Test

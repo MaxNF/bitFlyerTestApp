@@ -2,7 +2,7 @@ package com.bitflyer.testapp.domain.usecase
 
 import com.bitflyer.testapp.BaseTest
 import com.bitflyer.testapp.domain.repository.UserListRepository
-import com.bitflyer.testapp.userBriefEntityListMock
+import com.biyflyer.testapp.userBriefEntityListMock
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity
+            android:name=".TestHiltActivity"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.BitFlyerTestApp">
+        </activity>
+    </application>
+
+</manifest>

@@ -4,7 +4,7 @@ import com.bitflyer.testapp.BaseTest
 import com.bitflyer.testapp.data.CallResult
 import com.bitflyer.testapp.data.network.GithubNetworkApi
 import com.bitflyer.testapp.domain.repository.UserDetailsRepository
-import com.bitflyer.testapp.userDetailsMock
+import com.biyflyer.testapp.userDetailsMock
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -36,7 +36,9 @@ class UserDetailsRepositoryImplTest : BaseTest() {
         runTest(UnconfinedTestDispatcher()) {
             val result = repo.getUserDetails("")
             assertThat(result).isInstanceOf(CallResult.Success::class.java)
-            assertThat((result as CallResult.Success).value).isEqualTo(userDetailsMock)
+            assertThat((result as CallResult.Success).value).isEqualTo(
+                userDetailsMock
+            )
         }
     }
 

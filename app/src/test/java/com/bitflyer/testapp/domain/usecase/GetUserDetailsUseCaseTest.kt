@@ -3,7 +3,7 @@ package com.bitflyer.testapp.domain.usecase
 import com.bitflyer.testapp.BaseTest
 import com.bitflyer.testapp.data.CallResult
 import com.bitflyer.testapp.domain.repository.UserDetailsRepository
-import com.bitflyer.testapp.userDetailsMock
+import com.biyflyer.testapp.userDetailsMock
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -27,11 +27,15 @@ class GetUserDetailsUseCaseTest : BaseTest() {
 
     @Test
     fun `Repo call returns success, use case also returns Success`() {
-        coEvery { repo.getUserDetails(any()) }.returns(CallResult.Success(userDetailsMock))
+        coEvery { repo.getUserDetails(any()) }.returns(CallResult.Success(
+            userDetailsMock
+        ))
         runTest(UnconfinedTestDispatcher()) {
             val result = useCase("")
             assertThat(result).isInstanceOf(CallResult.Success::class.java)
-            assertThat((result as CallResult.Success).value).isEqualTo(userDetailsMock)
+            assertThat((result as CallResult.Success).value).isEqualTo(
+                userDetailsMock
+            )
         }
     }
 

@@ -1,7 +1,7 @@
 package com.bitflyer.testapp.ui.userlist.mapper
 
 import com.bitflyer.testapp.BaseTest
-import com.bitflyer.testapp.userBriefEntityMock
+import com.biyflyer.testapp.userBriefEntityMock
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 

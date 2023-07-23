@@ -1,4 +1,4 @@
-package com.bitflyer.testapp
+package com.biyflyer.testapp
 
 import com.bitflyer.testapp.data.userdetails.dto.UserDetails
 import com.bitflyer.testapp.data.userlist.dto.UserBrief

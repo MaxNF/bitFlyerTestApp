@@ -45,8 +45,7 @@ import kotlin.random.Random
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun BitflyerApp() {
-    val navController = rememberNavController()
+fun BitflyerApp(navController: NavHostController) {
     val currentEntry = navController.currentBackStackEntryAsState()
     Scaffold(
         topBar = {

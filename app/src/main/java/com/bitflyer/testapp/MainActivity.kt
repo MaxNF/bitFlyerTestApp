@@ -5,6 +5,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -46,7 +47,8 @@ class MainActivity : AppCompatActivity() {
     private fun proceedCompose() {
         setContent {
             BitflyerTheme {
-                BitflyerApp()
+                val navController = rememberNavController()
+                BitflyerApp(navController)
             }
         }
     }

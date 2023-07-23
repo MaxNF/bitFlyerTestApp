@@ -7,9 +7,9 @@ import com.bitflyer.testapp.BaseTest
 import com.bitflyer.testapp.data.local.UserListDao
 import com.bitflyer.testapp.data.network.GithubNetworkApi
 import com.bitflyer.testapp.data.local.UserBriefToUserBriefEntityMapper
-import com.bitflyer.testapp.userBriefEntityListMock
-import com.bitflyer.testapp.userBriefEntityMock
-import com.bitflyer.testapp.userBriefListMock
+import com.biyflyer.testapp.userBriefEntityListMock
+import com.biyflyer.testapp.userBriefEntityMock
+import com.biyflyer.testapp.userBriefListMock
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -65,7 +65,9 @@ class UserListPagingSourceTest : BaseTest() {
             val params = PagingSource.LoadParams.Append(1, pageSize, false)
             val result = pagingSource.load(params)
             assertThat(result).isInstanceOf(PagingSource.LoadResult.Page::class.java)
-            assertThat((result as PagingSource.LoadResult.Page).data).isEqualTo(userBriefEntityListMock)
+            assertThat((result as PagingSource.LoadResult.Page).data).isEqualTo(
+                userBriefEntityListMock
+            )
         }
     }
 
@@ -142,7 +144,9 @@ class UserListPagingSourceTest : BaseTest() {
             val params = PagingSource.LoadParams.Append(1, pageSize, false)
             val result = pagingSource.load(params)
             assertThat(result).isInstanceOf(PagingSource.LoadResult.Page::class.java)
-            assertThat((result as PagingSource.LoadResult.Page).data).isEqualTo(userBriefEntityListMock)
+            assertThat((result as PagingSource.LoadResult.Page).data).isEqualTo(
+                userBriefEntityListMock
+            )
         }
     }
 }

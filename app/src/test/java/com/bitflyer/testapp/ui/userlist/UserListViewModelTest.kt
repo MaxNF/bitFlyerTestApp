@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.bitflyer.testapp.BaseTest
 import com.bitflyer.testapp.domain.usecase.GetPagedListUseCase
 import com.bitflyer.testapp.domain.usecase.SaveUsersOnProcessDeathUseCase
-import com.bitflyer.testapp.userBriefEntityListMock
+import com.biyflyer.testapp.userBriefEntityListMock
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
